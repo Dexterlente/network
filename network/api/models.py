@@ -20,5 +20,5 @@ class Profile(models.Model):
 class Post(models.Model):
     content = models.CharField(max_length=280)
     created_date = models.DateTimeField(auto_now_add=True)
-    creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="get_all_posts")
+    poster = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="get_all_posts")
     likes = models.ManyToManyField(Profile, blank=True, related_name="get_all_liked_posts")
