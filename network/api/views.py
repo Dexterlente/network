@@ -71,3 +71,32 @@ class UpdateFollowAPIView(APIView):
             profile.followers.add(request.user)
         profile.save()
         return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
+
+class post_list(generics.ListCreateAPIView):
+    queryset = Post.objects.all().order_by('-time_created_post')
+    serializer_class = PostSerializer
+    authentication_classes =  [TokenAuthentication] 
+
+    def get_permissions(self):
+        permission_classes = []
+        # if self.request.method != 'GET':
+        #     permission_classes = [IsAuthenticated]
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+
+        return [permission() for permission in permission_classes]
+
+class FollowedPostsView(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+
+    def get_queryset(self):
+        followed_profiles = self.request.user.get_followed_profiles.all()
+        queryset = Post.objects.filter(poster__in=followed_profiles).all()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)

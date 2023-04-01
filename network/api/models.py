@@ -23,11 +23,7 @@ class User(AbstractUser):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
-    # followers_count = models.PositiveIntegerField(default=0)
-    # following_count = models.PositiveIntegerField(default=0)
-    # following = models.ManyToManyField('self', symmetrical=False, related_name='followed_profiles')
-    # followers = models.ManyToManyField('self', symmetrical=False, related_name='following_profiles')
-
+    
     def __str__(self):
         return self.user.username
 
