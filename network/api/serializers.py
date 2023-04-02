@@ -18,25 +18,12 @@ class ProfileSerializer(serializers.ModelSerializer):
         return obj.followers.count()
 
     def get_following(self, obj):
-        return obj.user.get_followed_profiles.count()
+        return obj.user.following.count()
 
     def get_currently_following(self, obj):
         user = self.context.get('request').user
-        return not user.is_anonymous and obj in user.get_followed_profiles.all()
+        return not user.is_anonymous and obj in user.following.all()
 
     def get_follow_available(self, obj):
         user = self.context.get('request').user
         return (not user.is_anonymous) and obj.user != user
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data.update(self.serialize(instance))
-        return data
-
-    def serialize(self, instance):
-        return {
-            "followers": instance.followers.count(),
-            "following": instance.user.get_followed_profiles.count(),
-            "currently_following": not self.context.get('request').user.is_anonymous and instance in self.context.get('request').user.get_followed_profiles.all(),
-            "follow_available": (not self.context.get('request').user.is_anonymous) and instance.user != self.context.get('request').user
-        }
