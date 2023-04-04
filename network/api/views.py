@@ -2,12 +2,14 @@ from django.shortcuts import render
 from .models import User, Profile, Post
 from rest_framework import permissions
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics, status, serializers
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.authtoken.views import ObtainAuthToken
+from .serializers import UserSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer
 
 class LoginAPIView(ObtainAuthToken):
     def post(self, request):
@@ -79,7 +81,7 @@ class FollowingListAPIView(generics.ListAPIView):
 
 class UpdateLikeAPIView(APIView):
     serializer_class = ProfileSerializer
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, post_id):
@@ -97,7 +99,7 @@ class UpdateLikeAPIView(APIView):
 
 class UpdateFollowAPIView(APIView):
     serializer_class = ProfileSerializer
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, profile_id):
