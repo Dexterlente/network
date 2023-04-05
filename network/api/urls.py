@@ -1,6 +1,6 @@
 from . import views
 from django.urls import path
-# from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.views import APIView
 
 
@@ -9,5 +9,6 @@ urlpatterns = [
     path('login/', views.LoginAPIView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
-    path('posts/', views.post_list.as_view(), name='posts'),
+    # path('posts/', views.post_list.as_view(), name='posts'),
+    # need to work on this api first
 ]
