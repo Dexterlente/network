@@ -49,7 +49,7 @@ class LogoutSerializer(serializers.Serializer):
     pass
 
 class ProfileSerializer(serializers.ModelSerializer):
-    profile_id = serializers.ReadOnlyField(source='user.id')
+    id = serializers.ReadOnlyField(source='user.id')
     profile_username = serializers.ReadOnlyField(source='user.username')
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
@@ -60,7 +60,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ('profile_id', 'profile_username', 'followers', 'following', 'currently_following', 'follow_available', 'followers_list', 'following_list')
+        fields = ('id', 'profile_username', 'followers', 'following', 'currently_following', 'follow_available', 'followers_list', 'following_list')
 
     def get_followers(self, obj):
         return obj.followers.count()
