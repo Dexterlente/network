@@ -11,6 +11,14 @@ from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from .serializers import UserSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer
 from django.contrib.auth.models import User
+from rest_framework.permissions import BasePermission
+
+class IsOwner(BasePermission):
+    """
+    Custom permission to only allow owners of an object to access it.
+    """
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
 
 class LoginAPIView(ObtainAuthToken):
     def post(self, request):
@@ -44,22 +52,44 @@ def register(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class profile_list(generics.ListAPIView):
+class profile_list(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    permission_classes = [IsAdminUser]
+    authentication_classes =  [TokenAuthentication] 
+    # permission_classes = [IsAdminUser]
+    """get request needs to be a user
+    and other request needs to be an admin"""
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [IsAuthenticated()]
+        else:
+            return [IsAdminUser(), IsOwner()]
+
+    def post(self, request, *args, **kwargs):
+        # Check if user already has a profile if not error 400
+        if request.user.profile:
+            return Response({'error': 'User already has a profile.'}, status=status.HTTP_400_BAD_REQUEST)
+        # if there is no profile yet 200 sucess
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=request.user)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class profile_detail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Profile.objects.all()
+    # queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     lookup_field = 'id'
     authentication_classes =  [TokenAuthentication] 
+
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
 
     def get_permissions(self):
         if self.request.method == 'GET':
             return [AllowAny()]
         else:
-            return [IsAdminUser()]
+            return [IsAdminUser(), IsOwner()]
 
 class FollowerListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
