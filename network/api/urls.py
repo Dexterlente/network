@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', views.LoginAPIView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
+    # profile
     # path('posts/', views.post_list.as_view(), name='posts'),
     # need to work on this api first
 ]
