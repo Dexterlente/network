@@ -5,7 +5,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 class User(AbstractUser):
-    pass
     # following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     groups = models.ManyToManyField(
         'auth.Group',
