@@ -11,7 +11,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     # profile
     path('profile/', views.profile_list.as_view()),
-    path('profile/<int:id>', views.profile_list.as_view()),
+    path('profile/<int:id>', views.profile_detail.as_view()),
 
     # path('posts/', views.post_list.as_view(), name='posts'),
     # need to work on this api first

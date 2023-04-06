@@ -55,13 +55,10 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes =  [TokenAuthentication] 
 
     def get_permissions(self):
-        permission_classes = []
         if self.request.method == 'GET':
-            permission_classes = [AllowAny]
+            return [AllowAny()]
         else:
-            permission_classes = [IsAuthenticated]
-
-        return [permission() for permission in permission_classes]
+            return [IsAdminUser()]
 
 class FollowerListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
