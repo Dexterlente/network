@@ -10,6 +10,9 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
     # profile
+    path('profile/', views.profile_list.as_view()),
+    path('profile/<int:id>', views.profile_list.as_view()),
+
     # path('posts/', views.post_list.as_view(), name='posts'),
     # need to work on this api first
 ]
