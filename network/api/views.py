@@ -47,6 +47,8 @@ def register(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
+        print(user)
+        # profile = Profile.objects.create(user=user)
         token = Token.objects.create(user=user)
         return Response({'message': 'Successfully registered', 'token': token.key})
     else:
@@ -63,18 +65,7 @@ class profile_list(generics.ListCreateAPIView):
         if self.request.method == 'GET':
             return [IsAuthenticated()]
         else:
-            return [IsAdminUser(), IsOwner()]
-
-    def post(self, request, *args, **kwargs):
-        # Check if user already has a profile if not error 400
-        if request.user.profile:
-            return Response({'error': 'User already has a profile.'}, status=status.HTTP_400_BAD_REQUEST)
-        # if there is no profile yet 200 sucess
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            return [IsOwner()]
 
 class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     # queryset = Profile.objects.all()
@@ -83,7 +74,8 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes =  [TokenAuthentication] 
 
     def get_queryset(self):
-        return Profile.objects.filter(user=self.request.user)
+        # return Profile.objects.filter(user=self.request.user)
+        return Profile.objects.filter(id=self.kwargs['id'])
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -91,55 +83,55 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
         else:
             return [IsAdminUser(), IsOwner()]
 
-class FollowerListAPIView(generics.ListAPIView):
-    serializer_class = ProfileSerializer
+# class FollowerListAPIView(generics.ListAPIView):
+#     serializer_class = ProfileSerializer
     
-    def get_queryset(self):
-        id = self.kwargs['id']
-        profile = Profile.objects.get(user_id=id)
-        return profile.followers.all()
+#     def get_queryset(self):
+#         user_id = self.kwargs['id']
+#         profile = Profile.objects.get(user_id=user_id)
+#         return profile.followers.all()
 
-class FollowingListAPIView(generics.ListAPIView):
-    serializer_class = ProfileSerializer
+# class FollowingListAPIView(generics.ListAPIView):
+#     serializer_class = ProfileSerializer
     
-    def get_queryset(self):
-        user_id = self.kwargs['user_id']
-        profile = Profile.objects.get(user_id=user_id)
-        return profile.following.all()
+#     def get_queryset(self):
+#         user_id = self.kwargs['id']
+#         profile = Profile.objects.get(user_id=user_id)
+#         return profile.following.all()
 
-class UpdateLikeAPIView(APIView):
-    serializer_class = ProfileSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+# class UpdateLikeAPIView(APIView):
+#     serializer_class = ProfileSerializer
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    def post(self, request, post_id):
-        profile = Profile.objects.filter(user=request.user).first()
-        post = Post.objects.get(id=post_id)
-        if post in profile.get_all_liked_posts.all():
-            newStatus = False
-            post.likes.remove(profile)
-        else:
-            newStatus = True
-            post.likes.add(profile)
-        post.save()
-        return Response({"liked": newStatus, "newAmount": post.likes.count()}, status=200)
+#     def post(self, request, post_id):
+#         profile = Profile.objects.filter(user=request.user).first()
+#         post = Post.objects.get(id=post_id)
+#         if post in profile.get_all_liked_posts.all():
+#             newStatus = False
+#             post.likes.remove(profile)
+#         else:
+#             newStatus = True
+#             post.likes.add(profile)
+#         post.save()
+#         return Response({"liked": newStatus, "newAmount": post.likes.count()}, status=200)
 
 
-class UpdateFollowAPIView(APIView):
-    serializer_class = ProfileSerializer
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+# class UpdateFollowAPIView(APIView):
+#     serializer_class = ProfileSerializer
+#     authentication_classes = [TokenAuthentication]
+#     permission_classes = [IsAuthenticated]
 
-    def post(self, request, profile_id):
-        profile = Profile.objects.get(id=profile_id)
-        if profile in request.user.get_followed_profiles.all():
-            newStatus = False
-            profile.followers.remove(request.user)
-        else:
-            newStatus = True
-            profile.followers.add(request.user)
-        profile.save()
-        return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
+#     def post(self, request, profile_id):
+#         profile = Profile.objects.get(id=profile_id)
+#         if profile in request.user.get_followed_profiles.all():
+#             newStatus = False
+#             profile.followers.remove(request.user)
+#         else:
+#             newStatus = True
+#             profile.followers.add(request.user)
+#         profile.save()
+#         return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
 
 # class post_list(generics.ListCreateAPIView):
 #     queryset = Post.objects.all().order_by('-created_date')
