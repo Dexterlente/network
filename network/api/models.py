@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 
 class User(AbstractUser):
-    # following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+    pass
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
