@@ -12,7 +12,7 @@ class Profile(models.Model):
     username = models.CharField(max_length=30, blank=True)
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
-    following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+    following = models.ManyToManyField('self', symmetrical=False, related_name='followers', default=0)
     
     def __str__(self):
         return self.user.username

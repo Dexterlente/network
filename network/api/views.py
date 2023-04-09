@@ -10,9 +10,14 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
 from .serializers import UserSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer
-from django.contrib.auth.models import User
 from rest_framework.permissions import BasePermission
+from rest_framework.generics import ListAPIView
 
+
+class UserViewSet(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
 class IsOwner(BasePermission):
     """
     Custom permission to only allow owners of an object to access it.
@@ -48,7 +53,6 @@ def register(request):
     if serializer.is_valid():
         user = serializer.save()
         print(user)
-        # profile = Profile.objects.create(user=user)
         token = Token.objects.create(user=user)
         return Response({'message': 'Successfully registered', 'token': token.key})
     else:
@@ -57,15 +61,15 @@ def register(request):
 class profile_list(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    authentication_classes =  [TokenAuthentication] 
+    # authentication_classes =  [TokenAuthentication] 
     # permission_classes = [IsAdminUser]
     """get request needs to be a user
     and other request needs to be an admin"""
-    def get_permissions(self):
-        if self.request.method == 'GET':
-            return [IsAuthenticated()]
-        else:
-            return [IsOwner()]
+    # def get_permissions(self):
+    #     if self.request.method == 'GET':
+    #         return [IsAuthenticated()]
+    #     else:
+    #         return [IsOwner()]
 
 class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     # queryset = Profile.objects.all()
