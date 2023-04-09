@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 # Create your models here.
 from django.contrib.auth.models import AbstractUser
@@ -10,11 +8,20 @@ class User(AbstractUser):
     pass
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    username = models.CharField(max_length=30, blank=True)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
     following = models.ManyToManyField('self', symmetrical=False, related_name='followers')
     
     def __str__(self):
         return self.user.username
+        
+    def save(self, *args, **kwargs):
+        self.username = self.user.username
+        self.first_name = self.user.first_name
+        self.last_name = self.user.last_name
+        super().save(*args, **kwargs)
 
 
 class Post(models.Model):
