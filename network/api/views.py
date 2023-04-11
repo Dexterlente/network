@@ -72,7 +72,7 @@ class profile_list(generics.ListCreateAPIView):
     #         return [IsOwner()]
 
 class profile_detail(generics.RetrieveUpdateDestroyAPIView):
-    # queryset = Profile.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     lookup_field = 'id'
     authentication_classes =  [TokenAuthentication] 
