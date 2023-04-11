@@ -7,6 +7,7 @@ from django.utils import timezone
 class User(AbstractUser):
     pass
 
+# need to fix the models
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     username = models.CharField(max_length=30, blank=True)
