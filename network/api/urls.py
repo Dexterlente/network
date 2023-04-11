@@ -9,6 +9,8 @@ urlpatterns = [
     path('login/', views.LoginAPIView.as_view(), name='login'),
     path('logout/', views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
+
+    path('users/', views.UserViewSet.as_view()),
     # profile
     path('profile/', views.profile_list.as_view()),
     path('profile/<int:id>', views.profile_detail.as_view()),
