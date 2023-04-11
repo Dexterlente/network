@@ -6,7 +6,8 @@ from django.core.exceptions import ValidationError
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='user.id')
+    pk = serializers.IntegerField(source='id', read_only=True)
+    user_id = serializers.ReadOnlyField(source='user.id')
     profile_username = serializers.ReadOnlyField(source='user.username')
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
@@ -17,7 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'profile_username', 'first_name', 'last_name', 'followers', 'following', 'currently_following', 'follow_available', 'followers_list', 'following_list']
+        fields = ['pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'followers', 'following', 'currently_following', 'follow_available', 'followers_list', 'following_list']
 
     def get_followers(self, obj):
         return obj.followers.count()
