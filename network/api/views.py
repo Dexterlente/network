@@ -92,6 +92,7 @@ class FollowerListAPIView(generics.ListAPIView):
     
     def get_queryset(self):
         user_id = self.kwargs['id']
+        # user_id = self.kwargs.get('id')
         profile = Profile.objects.get(user_id=user_id)
         return profile.followers.all()
 
@@ -101,7 +102,7 @@ class FollowingListAPIView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['id']
         profile = Profile.objects.get(user_id=user_id)
-        return profile.following.all()
+        return profile.user.following.all()
 
 # class UpdateLikeAPIView(APIView):
 #     serializer_class = ProfileSerializer

@@ -16,8 +16,8 @@ urlpatterns = [
     path('profile/<int:id>', views.profile_detail.as_view()),
 
     # followers
-    path('profile/<int:id>/followers/', views.FollowerListAPIView.as_view(), name='follower_list'),
-    path('profile/<int:id>/followers/', views.FollowingListAPIView.as_view(), name='following_list'),
+    path('profile/<int:id>/followers', views.FollowerListAPIView.as_view(), name='follower_list'),
+    path('profile/<int:id>/following', views.FollowingListAPIView.as_view(), name='following_list'),
 
 
     # path('posts/', views.post_list.as_view(), name='posts'),
