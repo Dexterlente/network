@@ -15,9 +15,11 @@ urlpatterns = [
     path('profile/', views.profile_list.as_view()),
     path('profile/<int:id>', views.profile_detail.as_view()),
 
-    # # followers
-    # path('profile/<int:id>/followers/', views.FollowerListAPIView.as_view(), name='follower_list'),
-    # path('profile/<int:id>/followers/', views.FollowingListAPIView.as_view(), name='following_list'),
+    # followers
+    path('profile/<int:id>/followers/', views.FollowerListAPIView.as_view(), name='follower_list'),
+    path('profile/<int:id>/followers/', views.FollowingListAPIView.as_view(), name='following_list'),
+
+
     # path('posts/', views.post_list.as_view(), name='posts'),
     # need to work on this api first
 ]
