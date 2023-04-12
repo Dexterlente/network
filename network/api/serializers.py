@@ -122,11 +122,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['id', 'content', 'created_date', 'creator_id', 'creator_username', 'editable', 'likes', 'liked']
-
-    def get_editable(self, obj):
-        user = self.context.get('request').user
-        return user == obj.creator.user
+        fields = ['id', 'content', 'created_date', 'creator_id', 'creator_username', 'likes', 'liked']
 
     def get_likes(self, obj):
         return obj.likes.count()
