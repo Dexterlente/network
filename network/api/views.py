@@ -87,21 +87,21 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
         else:
             return [IsAdminUser(), IsOwner()]
 
-# class FollowerListAPIView(generics.ListAPIView):
-#     serializer_class = ProfileSerializer
+class FollowerListAPIView(generics.ListAPIView):
+    serializer_class = ProfileSerializer
     
-#     def get_queryset(self):
-#         user_id = self.kwargs['id']
-#         profile = Profile.objects.get(user_id=user_id)
-#         return profile.followers.all()
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        profile = Profile.objects.get(user_id=user_id)
+        return profile.followers.all()
 
-# class FollowingListAPIView(generics.ListAPIView):
-#     serializer_class = ProfileSerializer
+class FollowingListAPIView(generics.ListAPIView):
+    serializer_class = ProfileSerializer
     
-#     def get_queryset(self):
-#         user_id = self.kwargs['id']
-#         profile = Profile.objects.get(user_id=user_id)
-#         return profile.following.all()
+    def get_queryset(self):
+        user_id = self.kwargs['id']
+        profile = Profile.objects.get(user_id=user_id)
+        return profile.following.all()
 
 # class UpdateLikeAPIView(APIView):
 #     serializer_class = ProfileSerializer
