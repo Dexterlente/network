@@ -111,3 +111,26 @@ class LoginSerializer(serializers.Serializer):
 
 class LogoutSerializer(serializers.Serializer):
     pass
+
+# post serializer
+class PostSerializer(serializers.ModelSerializer):
+    creator_username = serializers.ReadOnlyField(source='creator.user.username')
+    creator_id = serializers.ReadOnlyField(source='creator.id')
+    editable = serializers.SerializerMethodField()
+    likes = serializers.SerializerMethodField()
+    liked = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Post
+        fields = ['id', 'content', 'created_date', 'creator_id', 'creator_username', 'editable', 'likes', 'liked']
+
+    def get_editable(self, obj):
+        user = self.context.get('request').user
+        return user == obj.creator.user
+
+    def get_likes(self, obj):
+        return obj.likes.count()
+
+    def get_liked(self, obj):
+        user = self.context.get('request').user
+        return not user.is_anonymous and obj in Profile.objects.filter(user=user).first().get_all_liked_posts.all()
