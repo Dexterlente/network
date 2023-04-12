@@ -110,15 +110,19 @@ class UpdateFollowAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, profile_id):
-        profile = Profile.objects.get(user_id=profile_id)
-        if profile in request.user.following.all():
-            newStatus = False
-            profile.followers.remove(request.user)
+        # this post method wont trigger if the same user is the same as the profile
+        if str(request.user.id) == str(profile_id):
+            return Response({'detail': "You can't follow/unfollow yourself."}, status=400)
         else:
-            newStatus = True
-            profile.followers.add(request.user)
-        profile.save()
-        return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
+            profile = Profile.objects.get(user_id=profile_id)
+            if profile in request.user.following.all():
+                newStatus = False
+                profile.followers.remove(request.user)
+            else:
+                newStatus = True
+                profile.followers.add(request.user)
+            profile.save()
+            return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
 
 
 # class UpdateLikeAPIView(APIView):
