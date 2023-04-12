@@ -16,9 +16,11 @@ urlpatterns = [
     path('profile/<int:id>', views.profile_detail.as_view()),
 
     # followers
-    path('profile/<int:id>/followers', views.FollowerListAPIView.as_view(), name='follower_list'),
-    path('profile/<int:id>/following', views.FollowingListAPIView.as_view(), name='following_list'),
+    path('profile/<int:id>/followers', views.FollowerListAPIView.as_view()),
+    path('profile/<int:id>/following', views.FollowingListAPIView.as_view()),
 
+    #follow or unfollow profile
+    path("profile/<int:profile_id>/update_follow", views.UpdateFollowAPIView.as_view()),
 
     # path('posts/', views.post_list.as_view(), name='posts'),
     # need to work on this api first

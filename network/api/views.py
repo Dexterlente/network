@@ -104,6 +104,23 @@ class FollowingListAPIView(generics.ListAPIView):
         profile = Profile.objects.get(user_id=user_id)
         return profile.user.following.all()
 
+class UpdateFollowAPIView(APIView):
+    serializer_class = ProfileSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, profile_id):
+        profile = Profile.objects.get(user_id=profile_id)
+        if profile in request.user.following.all():
+            newStatus = False
+            profile.followers.remove(request.user)
+        else:
+            newStatus = True
+            profile.followers.add(request.user)
+        profile.save()
+        return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
+
+
 # class UpdateLikeAPIView(APIView):
 #     serializer_class = ProfileSerializer
 #     authentication_classes = [TokenAuthentication]
@@ -122,21 +139,6 @@ class FollowingListAPIView(generics.ListAPIView):
 #         return Response({"liked": newStatus, "newAmount": post.likes.count()}, status=200)
 
 
-# class UpdateFollowAPIView(APIView):
-#     serializer_class = ProfileSerializer
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request, profile_id):
-#         profile = Profile.objects.get(id=profile_id)
-#         if profile in request.user.get_followed_profiles.all():
-#             newStatus = False
-#             profile.followers.remove(request.user)
-#         else:
-#             newStatus = True
-#             profile.followers.add(request.user)
-#         profile.save()
-#         return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
 
 # class post_list(generics.ListCreateAPIView):
 #     queryset = Post.objects.all().order_by('-created_date')
