@@ -148,7 +148,7 @@ class UpdateLikeAPIView(APIView):
             newStatus = True
             post.likes.add(profile)
         post.save()
-        return Response({"liked": newStatus, "newAmount": post.likes.count()}, status=200)
+        return Response({"liked": newStatus, "Count": post.likes.count()}, status=200)
 
 
 
