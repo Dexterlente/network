@@ -122,7 +122,7 @@ class UpdateFollowAPIView(APIView):
                 newStatus = True
                 profile.followers.add(request.user)
             profile.save()
-            return Response({"newFollower": newStatus, "newAmount": profile.followers.count()}, status=200)
+            return Response({"newFollower": newStatus, "new follow or unfollow count": profile.followers.count()}, status=200)
 
 
 # class UpdateLikeAPIView(APIView):

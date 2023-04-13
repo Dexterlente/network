@@ -13,18 +13,29 @@ class ProfileSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
     currently_following = serializers.SerializerMethodField()
     follow_available = serializers.SerializerMethodField()
-    followers_list = serializers.SerializerMethodField()
-    following_list = serializers.SerializerMethodField()
+    # followers_list = serializers.SerializerMethodField()
+    # following_list = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ['pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'followers', 'following', 'currently_following', 'follow_available', 'followers_list', 'following_list']
+        fields = ['pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'followers', 'following', 'currently_following', 'follow_available']
 
     def get_followers(self, obj):
-        return obj.followers.count()
+        #edit
+        if isinstance(obj, Profile):
+            return obj.followers.count()
+        return 0
+
+    # def get_followers(self, obj):
+    #     return obj.followers.count()
 
     def get_following(self, obj):
-        return obj.user.following.count()
+        #edit
+        if isinstance(obj, Profile):
+            return obj.user.following.count()
+        return 0
+    # def get_following(self, obj):
+    #     return obj.user.following.count()
 
     def get_currently_following(self, obj):
         user = self.context.get('request').user
@@ -35,14 +46,32 @@ class ProfileSerializer(serializers.ModelSerializer):
         return (not user.is_anonymous) and obj.user != user
 
     def get_followers_list(self, obj):
-        follower_profiles = obj.followers.all()
-        serializer = ProfileSerializer(follower_profiles, many=True, context=self.context)
+        followers = obj.followers.all()
+        serializer = self.__class__(followers, many=True)
         return serializer.data
 
     def get_following_list(self, obj):
-        following_profiles = obj.user.following.all()
-        serializer = ProfileSerializer(following_profiles, many=True, context=self.context)
+        following = obj.following.all()
+        serializer = self.__class__(following, many=True)
         return serializer.data
+    # def get_followers_list(self, obj):
+    #     follower_profiles = obj.followers.all()
+    #     serializer = ProfileSerializer(follower_profiles, many=True, context=self.context)
+    #     return serializer.data
+    
+    # def get_followers_list(self, obj):
+    #     if isinstance(obj, Profile):
+    #         follower_profiles = obj.followers.all()
+    #         serializer = ProfileSerializer(follower_profiles, many=True, context=self.context)
+    #         return serializer.data
+    #     return []
+
+
+    # def get_following_list(self, obj):
+    #     following_profiles = obj.user.following.all()
+    #     serializer = ProfileSerializer(following_profiles, many=True, context=self.context)
+    #     return serializer.data
+
 
 class UserSerializer(serializers.ModelSerializer):
     password_confirm = serializers.CharField(write_only=True)
