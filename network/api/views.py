@@ -168,15 +168,15 @@ class post_list(generics.ListCreateAPIView):
 
     #     return [permission() for permission in permission_classes]
 
-# class FollowedPostsView(generics.ListCreateAPIView):
-#     serializer_class = PostSerializer
+class FollowedPostsView(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
 
-#     def get_queryset(self):
-#         followed_profiles = self.request.user.get_followed_profiles.all()
-#         queryset = Post.objects.filter(poster__in=followed_profiles).all()
-#         return queryset
+    def get_queryset(self):
+        following = self.request.user.following.all()
+        queryset = Post.objects.filter(poster__in=following).all()
+        return queryset
 
-#     def list(self, request, *args, **kwargs):
-#         queryset = self.get_queryset()
-#         serializer = self.get_serializer(queryset, many=True)
-#         return Response(serializer.data)
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
