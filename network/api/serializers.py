@@ -143,15 +143,21 @@ class LogoutSerializer(serializers.Serializer):
 
 # post serializer
 class PostSerializer(serializers.ModelSerializer):
-    creator_username = serializers.ReadOnlyField(source='creator.user.username')
-    creator_id = serializers.ReadOnlyField(source='creator.id')
-    editable = serializers.SerializerMethodField()
+    poster_username = serializers.ReadOnlyField(source='poster.user.username')
+    poster_id = serializers.ReadOnlyField(source='poster.id')
     likes = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
+    poster_first_name = serializers.ReadOnlyField(source='poster.user.first_name')
+    poster_last_name = serializers.ReadOnlyField(source='poster.user.last_name')
+    
 
     class Meta:
         model = Post
-        fields = ['id', 'content', 'created_date', 'creator_id', 'creator_username', 'likes', 'liked']
+        fields = ['id', 'content', 'created_date', 'poster_id', 'poster_username', 'likes', 'liked', 'poster_first_name', 'poster_last_name']
+
+    # def create(self, validated_data):
+    #     validated_data['poster'] = self.context['request'].user
+    #     return super().create(validated_data)
 
     def get_likes(self, obj):
         return obj.likes.count()

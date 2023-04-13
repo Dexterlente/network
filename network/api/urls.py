@@ -21,7 +21,11 @@ urlpatterns = [
 
     #follow or unfollow profile
     path("profile/<int:profile_id>/update_follow", views.UpdateFollowAPIView.as_view()),
-
-    # path('posts/', views.post_list.as_view(), name='posts'),
+    #Post list endpoint
+    path('posts/', views.post_list.as_view(), name='posts'),
+    #detailed post
+    path('posts/<int:id>', views.post_detail.as_view()),
+    
+    path('posts/<int:id>/like', views.post_detail.as_view()),
     # need to work on this api first
 ]

@@ -32,4 +32,5 @@ class Post(models.Model):
     likes = models.ManyToManyField(Profile, blank=True, related_name="get_all_liked_posts")
 
     def __str__(self):
-        return self.poster
+        # return self.poster
+        return f"by {self.poster.user.username}"

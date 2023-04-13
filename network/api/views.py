@@ -9,7 +9,7 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.authtoken.views import ObtainAuthToken
-from .serializers import UserSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer
+from .serializers import UserSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer, PostSerializer
 from rest_framework.permissions import BasePermission
 from rest_framework.generics import ListAPIView
 
@@ -124,41 +124,49 @@ class UpdateFollowAPIView(APIView):
             profile.save()
             return Response({"newFollower": newStatus, "new follow or unfollow count": profile.followers.count()}, status=200)
 
+class post_detail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    lookup_field = 'id'
+    authentication_classes =  [TokenAuthentication] 
 
-# class UpdateLikeAPIView(APIView):
-#     serializer_class = ProfileSerializer
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Post.objects.filter(id=self.kwargs['id'])
 
-#     def post(self, request, post_id):
-#         profile = Profile.objects.filter(user=request.user).first()
-#         post = Post.objects.get(id=post_id)
-#         if post in profile.get_all_liked_posts.all():
-#             newStatus = False
-#             post.likes.remove(profile)
-#         else:
-#             newStatus = True
-#             post.likes.add(profile)
-#         post.save()
-#         return Response({"liked": newStatus, "newAmount": post.likes.count()}, status=200)
+class UpdateLikeAPIView(APIView):
+    serializer_class = ProfileSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, post_id):
+        profile = Profile.objects.filter(user=request.user).first()
+        post = Post.objects.get(id=post_id)
+        if post in profile.get_all_liked_posts.all():
+            newStatus = False
+            post.likes.remove(profile)
+        else:
+            newStatus = True
+            post.likes.add(profile)
+        post.save()
+        return Response({"liked": newStatus, "newAmount": post.likes.count()}, status=200)
 
 
 
-# class post_list(generics.ListCreateAPIView):
-#     queryset = Post.objects.all().order_by('-created_date')
-#     serializer_class = PostSerializer
-#     authentication_classes =  [TokenAuthentication] 
+class post_list(generics.ListCreateAPIView):
+    queryset = Post.objects.all().order_by('-created_date')
+    serializer_class = PostSerializer
+    authentication_classes =  [TokenAuthentication] 
 
-#     def get_permissions(self):
-#         permission_classes = []
-#         # if self.request.method != 'GET':
-#         #     permission_classes = [IsAuthenticated]
-#         if self.request.method == 'GET':
-#             permission_classes = [AllowAny]
-#         else:
-#             permission_classes = [IsAuthenticated]
+    # def get_permissions(self):
+    #     permission_classes = []
+    #     # if self.request.method != 'GET':
+    #     #     permission_classes = [IsAuthenticated]
+    #     if self.request.method == 'GET':
+    #         permission_classes = [AllowAny]
+    #     else:
+    #         permission_classes = [IsAuthenticated]
 
-#         return [permission() for permission in permission_classes]
+    #     return [permission() for permission in permission_classes]
 
 # class FollowedPostsView(generics.ListCreateAPIView):
 #     serializer_class = PostSerializer
