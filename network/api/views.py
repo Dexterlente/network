@@ -157,19 +157,21 @@ class post_list(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     authentication_classes =  [TokenAuthentication] 
 
-    # def get_permissions(self):
-    #     permission_classes = []
-    #     # if self.request.method != 'GET':
-    #     #     permission_classes = [IsAuthenticated]
-    #     if self.request.method == 'GET':
-    #         permission_classes = [AllowAny]
-    #     else:
-    #         permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        permission_classes = []
+        # if self.request.method != 'GET':
+        #     permission_classes = [IsAuthenticated]
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
 
-    #     return [permission() for permission in permission_classes]
+        return [permission() for permission in permission_classes]
 
 class FollowedPostsView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
+    authentication_classes =  [TokenAuthentication] 
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         following = self.request.user.following.all()
@@ -180,3 +182,4 @@ class FollowedPostsView(generics.ListCreateAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+        

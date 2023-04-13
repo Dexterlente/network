@@ -20,12 +20,13 @@ urlpatterns = [
     path('profile/<int:id>/following', views.FollowingListAPIView.as_view()),
 
     #follow or unfollow profile
-    path("profile/<int:profile_id>/update_follow", views.UpdateFollowAPIView.as_view()),
+    path("profile/<int:profile_id>/update-follow", views.UpdateFollowAPIView.as_view()),
     #Post list endpoint
     path('posts/', views.post_list.as_view(), name='posts'),
     #detailed post
     path('posts/<int:id>', views.post_detail.as_view()),
     #to like add count and boolean tru ur pulse
     path('posts/<int:post_id>/like', views.UpdateLikeAPIView.as_view()),
-    # need to work on this api first
+    # get followed profiles post
+    path('posts/followed-post', views.FollowedPostsView.as_view()),
 ]

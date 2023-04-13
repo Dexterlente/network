@@ -14,7 +14,9 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30, blank=True)
     followers = models.ManyToManyField(User, related_name='following')
-    
+    image = models.CharField(max_length=1000, null=True)
+    isVerified = models.BooleanField(default=False)
+
     def __str__(self):
         return self.user.username
         
