@@ -1,6 +1,7 @@
 import './App.css'
 import NavBar from './components/NavBar'
 import MainBody from './pages/MainBody'
+import RightBar from './components/RightBar'
 import { Outlet, Route, Routes } from 'react-router-dom'
 import { lazy, Suspense, useState } from "react";
 
@@ -15,6 +16,9 @@ function App() {
                 <NavBar className="self-end w-2/5" />
               </div>
             <Outlet className="col-span-2"/>
+            <div className="col-start-3">
+              <RightBar />
+            </div>
             </div>
           );
       };
