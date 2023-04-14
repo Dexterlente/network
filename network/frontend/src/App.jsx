@@ -7,6 +7,8 @@ import { lazy, Suspense, useState } from "react";
 
 // const MainBody = lazy(() => import("./pages/MainBody"));
 const OtherPage = lazy(() => import("./pages/OtherPage"));
+const Registration = lazy(() => import("./pages/Registration"));
+
 
 function App() {
   const NavSideBar = () => {
@@ -29,6 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<NavSideBar />}>
               <Route path="/" element={<MainBody />} />
+              <Route path="/register" element={<Registration />} />
               <Route path="/other" element={<OtherPage />} />
             </Route>                  
           </Routes>

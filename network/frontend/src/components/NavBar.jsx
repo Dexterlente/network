@@ -5,6 +5,7 @@ import { RiHome7Fill } from 'react-icons/ri'
 import { BsPerson } from 'react-icons/bs'
 // import { IoPerson } from 'react-icons/io'
 import { CgProfile } from 'react-icons/cg'
+import { RiLoginCircleLine } from 'react-icons/ri'
 
 const NavBar = () => {
   
@@ -26,6 +27,12 @@ const NavBar = () => {
               <BsPerson className='mt-1 mr-4' />
                   Profile </span>
             </div>
+            <div className='flex p-2'>
+            <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
+              <RiLoginCircleLine className='mt-1 mr-4' />
+                  Login </span>
+            </div>
+            
             <div className='mt-3'>
               <button className='bg-[#448EE4] rounded-full p-2 px-[78px] text-white font-bold text-lg'>
                 Tweet
