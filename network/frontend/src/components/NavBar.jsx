@@ -15,9 +15,9 @@ const NavBar = () => {
   return (
     <div className='fixed top-0 mr-4'>
       <div className='w-2/5 mt-3'>
-        <div> 
+        <Link to={"/"}> 
           <img src={Birdie} alt='BirdieKo' className='h-20 w-20 hover:bg-gray-300 p-5 rounded-3xl'  />
-        </div>
+        </Link>
           <div className='text-2xl'>
             <Link to={"/"} className='flex p-2'>
             <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
