@@ -143,6 +143,14 @@ class post_detail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Post.objects.filter(id=self.kwargs['id'])
+# lemme fix this in a while
+# class post_user(generics.ListCreateAPIView):
+#     serializer_class = PostSerializer
+#     authentication_classes = [TokenAuthentication]
+
+#     def get_queryset(self):
+#         profile_id = self.kwargs['profile_id']
+#         return Post.objects.filter(poster__profile__id=profile_id).order_by('-created_date')
 
 class UpdateLikeAPIView(APIView):
     serializer_class = ProfileSerializer
