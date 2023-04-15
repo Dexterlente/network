@@ -75,12 +75,12 @@ const NavBar = () => {
             Home
             </span>
             </Link>
-            {isLoggedIn && (
-            <div className='flex p-2'>
+            {isLoggedIn && profileData && (
+            <Link to={`/profile/${profileData.pk}`} className='flex p-2'>
             <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
               <BsPerson className='mt-1 mr-4' />
                   Profile </span>
-            </div>
+            </Link>
             )}
             {/* Not visible if logged in */}
             {isLoggedIn ? null : (
