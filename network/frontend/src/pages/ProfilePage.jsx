@@ -27,7 +27,7 @@ const ProfilePage = () => {
     <div className='border-solid border-x-2 h-screen'>
       <div className='relative'><img src={bgprofile} className='h-[250px] w-screen' />
             <div className='absolute -bottom-16 left-2 '>
-                <img src={pretty} className='h-[150px] w-[150px] rounded-full border-4 border-white' />
+                <img src={profile.image} className='h-[150px] w-[150px] rounded-full border-4 border-white' />
             </div>
       </div>
       <div className='mt-[70px] ml-4 opacity-70'>
