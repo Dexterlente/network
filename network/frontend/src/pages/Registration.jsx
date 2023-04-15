@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import API_ENDPOINT from '../config.jsx'
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -10,18 +12,39 @@ const Registration = () => {
     last_name: '',
   });
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
+  const Navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
-    // Add your registration logic here
+    const formData = new FormData(event.target);
+
+  fetch(`${API_ENDPOINT}/api/register/`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Token ${localStorage.getItem('token')}`,
+    },
+    body: formData
+  })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+      console.log(data);
+      // handle successful response here
+      //success redirect login
+      Navigate('/login')
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      // handle error here
+    });
+};
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
