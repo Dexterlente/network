@@ -13,8 +13,6 @@ class ProfileSerializer(serializers.ModelSerializer):
     following = serializers.SerializerMethodField()
     currently_following = serializers.SerializerMethodField()
     follow_available = serializers.SerializerMethodField()
-    # followers_list = serializers.SerializerMethodField()
-    # following_list = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
@@ -149,15 +147,15 @@ class PostSerializer(serializers.ModelSerializer):
     liked = serializers.SerializerMethodField()
     poster_first_name = serializers.ReadOnlyField(source='poster.user.first_name')
     poster_last_name = serializers.ReadOnlyField(source='poster.user.last_name')
-    
+    poster_image = serializers.ReadOnlyField(source='poster.user.profile.image')
 
     class Meta:
         model = Post
-        fields = ['id', 'content', 'created_date', 'poster_id', 'poster_username', 'likes', 'liked', 'poster_first_name', 'poster_last_name']
+        fields = ['id', 'content', 'poster_username', 'poster_id', 'created_date', 'likes', 'liked', 'poster_first_name', 'poster_last_name','poster_image']
 
-    # def create(self, validated_data):
-    #     validated_data['poster'] = self.context['request'].user
-    #     return super().create(validated_data)
+    def create(self, validated_data):
+        validated_data['poster'] = self.context['request'].user
+        return super().create(validated_data)
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -165,3 +163,4 @@ class PostSerializer(serializers.ModelSerializer):
     def get_liked(self, obj):
         user = self.context.get('request').user
         return not user.is_anonymous and obj in Profile.objects.filter(user=user).first().get_all_liked_posts.all()
+    
