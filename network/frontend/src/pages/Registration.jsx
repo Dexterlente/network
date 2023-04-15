@@ -25,7 +25,7 @@ const Registration = () => {
   };
 
   return (
-    <div className='text-lg mt-[100px] font-bold'>
+    <div className='text-lg pl-2 pt-[100px] font-bold h-screen border-x-2 border-solid border-gray-300'>
       <div className='text-center text-[40px] mb-[50px]'> Registration</div>
       <form onSubmit={handleSubmit}>
         <div>
