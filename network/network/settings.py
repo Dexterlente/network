@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-i-0o68ymg*zm9wj#rantng6zk+p-&-u95w74as(@a&3l*2$r4c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    #i forgot this shit lol
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,3 +133,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # dont forget this
 AUTH_USER_MODEL = 'api.User'
+
+#allow all
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Allow cookies to be included in cross-origin requests.
+CORS_ALLOW_CREDENTIALS = True
