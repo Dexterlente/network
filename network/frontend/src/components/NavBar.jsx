@@ -6,6 +6,9 @@ import { BsPerson } from 'react-icons/bs'
 // import { IoPerson } from 'react-icons/io'
 import { CgProfile } from 'react-icons/cg'
 import { RiLoginCircleLine } from 'react-icons/ri'
+import { MdOutlineAppRegistration } from 'react-icons/md'
+import { Link } from 'react-router-dom'
+
 
 const NavBar = () => {
   
@@ -32,6 +35,12 @@ const NavBar = () => {
               <RiLoginCircleLine className='mt-1 mr-4' />
                   Login </span>
             </div>
+            <Link to={"/register"} className='flex p-2'>
+            <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
+              <MdOutlineAppRegistration className='mt-1 mr-4' />
+                  Register </span>
+            </Link>
+            
             
             <div className='mt-3'>
               <button className='bg-[#448EE4] rounded-full p-2 px-[78px] text-white font-bold text-lg'>
