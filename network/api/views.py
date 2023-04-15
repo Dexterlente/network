@@ -12,6 +12,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from .serializers import UserSerializer, LoginSerializer, ProfileSerializer, LogoutSerializer, PostSerializer
 from rest_framework.permissions import BasePermission
 from rest_framework.generics import ListAPIView
+import random
 
 
 class UserViewSet(ListAPIView):
@@ -167,6 +168,42 @@ class post_list(generics.ListCreateAPIView):
             permission_classes = [IsAuthenticated]
 
         return [permission() for permission in permission_classes]
+#random post not efficient on prod
+class post_random(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+    authentication_classes = [TokenAuthentication]
+
+    def get_queryset(self):
+        count = Post.objects.count()
+        random_index = [random.randint(0, count - 1)for _ in range(20)]
+        return Post.objects.filter(pk__in=random_index)
+        # return Post.objects.all()[random_index:random_index + 1]
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+#Postgres more effient on large
+# from django.db import connection
+# class post_list(generics.ListCreateAPIView):
+#     serializer_class = PostSerializer
+#     authentication_classes = [TokenAuthentication]
+
+#     def get_queryset(self):
+#         cursor = connection.cursor()
+#         cursor.execute('SELECT * FROM posts TABLESAMPLE SYSTEM_ROWS(1)')
+#         row = cursor.fetchone()
+#         return Post.objects.filter(pk=row[0])
+
+#     def get_permissions(self):
+#         if self.request.method == 'GET':
+#             permission_classes = [AllowAny]
+#         else:
+#             permission_classes = [IsAuthenticated]
+#         return [permission() for permission in permission_classes]
+
 
 class FollowedPostsView(generics.ListCreateAPIView):
     serializer_class = PostSerializer

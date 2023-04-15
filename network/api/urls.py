@@ -23,6 +23,7 @@ urlpatterns = [
     path("profile/<int:profile_id>/update-follow", views.UpdateFollowAPIView.as_view()),
     #Post list endpoint
     path('posts/', views.post_list.as_view(), name='posts'),
+    path('postbody/', views.post_random.as_view()),
     #detailed post
     path('posts/<int:id>', views.post_detail.as_view()),
     #to like add count and boolean tru ur pulse
