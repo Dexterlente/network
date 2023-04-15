@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import API_ENDPOINT from '../config.jsx'
 import Cookies from 'js-cookie';
 import { useParams, Link } from 'react-router-dom';
-
-
+import { GoCalendar } from 'react-icons/go';
+GoCalendar
 
 const ProfilePage = () => {
     const { id } = useParams();
@@ -21,10 +21,16 @@ const ProfilePage = () => {
       }
 
   return (
-    <div className='border-solid border-x-1'>
-            <h2>{profile.first_name}</h2>
-            <p>{profile.last_name}</p>
+    <div className='border-solid border-x-2 h-screen'>
+            <p className='font-bold'>{profile.first_name} {profile.last_name}</p>
             <p>@{profile.profile_username}</p>
+            <p className='flex'><GoCalendar className='mt-1 mr-1' />Joined {new Date(profile.joined_date).toLocaleDateString("en-US", {
+                                                year: "numeric",
+                                                month: "long",
+                                                // day: "numeric",
+                                              })}
+                                              </p>
+            <p>{profile.followers} Following {profile.following} Followers</p>
 
     </div>
   )

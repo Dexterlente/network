@@ -122,7 +122,7 @@ class UpdateFollowAPIView(APIView):
 
     def post(self, request, profile_id):
         # this post method wont trigger if the same user is the same as the profile
-        if str(request.user.id) == str(profile_id):
+        if str(self.request.user.id) == str(profile_id):
             return Response({'detail': "You can't follow/unfollow yourself."}, status=400)
         else:
             profile = Profile.objects.get(user_id=profile_id)
