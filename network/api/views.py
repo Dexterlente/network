@@ -88,6 +88,16 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
         else:
             return [IsAdminUser(), IsOwner()]
 
+class my_profile(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    lookup_field = 'id'
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user.profile
+
 class FollowerListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
     

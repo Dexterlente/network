@@ -28,9 +28,8 @@ const Login = () => {
           // Successful login logic here
           Cookies.set("csrftoken", data.csrftoken);
           Cookies.set('token', data.token);
-          window.location.reload(true); // hard refresh to render the logout button
           navigate('/'); // Redirect to dashboard page
-          
+          window.location.reload(true); // hard refresh to render the logout button
         } else {
           // Failed login logic here
           console.log(data.error);

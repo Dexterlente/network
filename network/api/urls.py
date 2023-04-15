@@ -14,6 +14,7 @@ urlpatterns = [
     # profile
     path('profile/', views.profile_list.as_view()),
     path('profile/<int:id>', views.profile_detail.as_view()),
+    path('my-profile/', views.my_profile.as_view()),
 
     # followers
     path('profile/<int:id>/followers', views.FollowerListAPIView.as_view()),
