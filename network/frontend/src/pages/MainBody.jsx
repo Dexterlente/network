@@ -9,6 +9,7 @@ const MainBody = () => {
             <div><img src={pretty} alt='DisplayPic' className='h-[70px] w-[70px] rounded-full mt-8 ml-3' /></div>
             <div className='ml-5 font-bold mt-2'> Dexter Lente</div>
             <div className='ml-2 mt-2'>  @dexterjames</div>
+            <div className='ml-2 mt-2'>  12:20</div>
         </div>
         <p className='w-4/5  mx-auto text-left'>lorem lorem sita buko ng papaya dalay dalay dusdos sisidlan and bunga</p>
         <div className='ml-6 mb-3 mt-3 flex'>
