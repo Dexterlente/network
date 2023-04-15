@@ -183,11 +183,17 @@ class post_random(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     authentication_classes = [TokenAuthentication]
 
+    # def get_queryset(self):
+    #     count = Post.objects.count()
+    #     random_index = [random.randint(0, count - 1)for _ in range(20)]
+    #     return Post.objects.filter(pk__in=random_index)
+    #     # return Post.objects.all()[random_index:random_index + 1]
+        
     def get_queryset(self):
         count = Post.objects.count()
-        random_index = [random.randint(0, count - 1)for _ in range(20)]
+        num_of_posts = 10
+        random_index = random.sample(range(1, count), num_of_posts)
         return Post.objects.filter(pk__in=random_index)
-        # return Post.objects.all()[random_index:random_index + 1]
 
     def get_permissions(self):
         if self.request.method == 'GET':

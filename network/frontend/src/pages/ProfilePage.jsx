@@ -21,10 +21,10 @@ const ProfilePage = () => {
       }
 
   return (
-    <div>
+    <div className='border-solid border-x-1'>
             <h2>{profile.first_name}</h2>
             <p>{profile.last_name}</p>
-            <p>@{profile.pogi}</p>
+            <p>@{profile.profile_username}</p>
 
     </div>
   )
