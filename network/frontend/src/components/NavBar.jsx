@@ -12,7 +12,7 @@ const NavBar = () => {
   return (
     <div className='fixed top-0 mr-4'>
       <div className='w-2/5 mt-3'>
-        <div className='h-16 w-16 hover:bg-gray-700 rounded-full'> 
+        <div className='h-16 w-16 hover:bg-gray-300 rounded-full p-3'> 
           <img src={Birdie} alt='BirdieKo'  />
         </div>
           <div className='text-2xl'>
