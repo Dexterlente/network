@@ -13,6 +13,10 @@ const ProfilePage = () => {
     const { id } = useParams();
     const [profile, setProfile] = useState(null);
     const [data, setData] = useState([]);
+    const [showDiv1, setShowDiv1] = useState(true);
+    const [showDiv2, setShowDiv2] = useState(false);
+    const [showDiv3, setShowDiv3] = useState(false);
+
 
     useEffect(() => {
       Promise.all([
@@ -69,6 +73,7 @@ const ProfilePage = () => {
           Followers Post
         </div>
       </div>
+      {/* first div */}
       {data.map(post => (
       <div className='border-y-2 hover:bg-gray-200' key={post.id}>
           <div className='flex mt-3 items-center'>
