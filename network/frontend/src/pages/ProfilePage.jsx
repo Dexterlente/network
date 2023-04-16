@@ -63,8 +63,8 @@ const ProfilePage = () => {
                 <img src={profile.image} className='h-[150px] w-[150px] rounded-full border-4 border-white' />
             </div>
       </div>
-      <div className='mt-[70px] ml-4 opacity-70'>
-            <p className='font-bold text-2xl opacity-100'>{profile.first_name} {profile.last_name}</p>
+      <div className='mt-[70px] ml-4 text-gray-600'>
+            <p className='font-bold text-2xl text-black'>{profile.first_name} {profile.last_name}</p>
             <p className='mb-2'>@{profile.profile_username}</p>
             <p className='flex'><GoCalendar className='mt-1 mr-1 mb-2 text-xl' />Joined {new Date(profile.joined_date).toLocaleDateString("en-US", {
                                                 year: "numeric",
