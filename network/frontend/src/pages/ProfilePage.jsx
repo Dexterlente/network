@@ -17,6 +17,22 @@ const ProfilePage = () => {
     const [showDiv2, setShowDiv2] = useState(false);
     const [showDiv3, setShowDiv3] = useState(false);
 
+    const toggleDiv1 = () => {
+      setShowDiv1(true);
+      setShowDiv2(false);
+      setShowDiv3(false);
+    };
+    
+    const toggleDiv2 = () => {
+      setShowDiv1(false);
+      setShowDiv2(true);
+      setShowDiv3(false);
+    };
+    const toggleDiv3 = () => {
+      setShowDiv1(false);
+      setShowDiv2(false);
+      setShowDiv3(true);
+    };
 
     useEffect(() => {
       Promise.all([
