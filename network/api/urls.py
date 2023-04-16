@@ -33,5 +33,5 @@ urlpatterns = [
     path('posts/followed-post', views.FollowedPostsView.as_view()),
 
     #user post
-    # path('user-post/<int:profile_id>', views.post_user.as_view()),
+    path('user-post/<int:profile_id>', views.post_user.as_view()),
 ]
