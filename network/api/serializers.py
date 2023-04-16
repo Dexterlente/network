@@ -45,12 +45,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def get_followers_list(self, obj):
         followers = obj.followers.all()
-        serializer = self.__class__(followers, many=True)
+        serializer = ProfileSerializer(followers, many=True, context=self.context, fields=['__all__'])
         return serializer.data
 
     def get_following_list(self, obj):
         following = obj.following.all()
-        serializer = self.__class__(following, many=True)
+        serializer = self.__class__(following, many=True, context=self.context, fields=['__all__'])
+        # serializer = ProfileSerializer(following, many=True, context=self.context, fields=['__all__'])
         return serializer.data
     # def get_followers_list(self, obj):
     #     follower_profiles = obj.followers.all()
