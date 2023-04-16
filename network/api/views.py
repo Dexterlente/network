@@ -98,17 +98,27 @@ class my_profile(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return self.request.user.userprofile
 
+# class FollowerListAPIView(generics.ListAPIView):
+#     serializer_class = ProfileSerializer
+    
+#     def get_queryset(self):
+#         user_id = self.kwargs['id']
+#         profile = Profile.objects.get(id=user_id)
+#         return profile.followers.all()
+"""
+In this code, we first get the Profile object of the user with the given user_id. We then get the queryset of User objects for the followers of this Profile object.
+ Finally, we filter the Profile objects based on these User objects using the __in lookup, and return the filtered queryset."""
+ 
 class FollowerListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
     
     def get_queryset(self):
         user_id = self.kwargs['id']
         profile = Profile.objects.get(user_id=user_id)
-        return profile.followers.all()
-    # def get_queryset(self):
-    #     id = self.kwargs['id']
-    #     profile = Profile.objects.get(pk=id)
-    #     return profile.followers.all()
+        follower_users = profile.followers.all()
+        follower_profiles = Profile.objects.filter(user__in=follower_users)
+        return follower_profiles
+
 
 class FollowingListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
