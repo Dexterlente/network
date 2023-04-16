@@ -245,24 +245,38 @@ class FollowedPostsView(generics.ListCreateAPIView):
         queryset = Post.objects.filter(poster__in=following).all()
         return queryset
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request, *args, **kwargs):   
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
         
 class FollowersPostsView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
-    # authentication_classes = [TokenAuthentication] 
-    # permission_classes = [IsAuthenticated]
+
+    # def get_queryset(self):
+    #     profile_id = self.kwargs.get('profile_id')
+    #     profile = Profile.objects.get(pk=profile_id)
+    #     #being a related name .user is not needed
+    #     followers = profile.followers.all()
+    #     queryset = Post.objects.filter(poster__profile__in=followers)
+    #     return queryset
 
     def get_queryset(self):
-        # followers = self.request.user.userprofile.followers.all()
-        followers = self.request.user.followers.all()
-        queryset = Post.objects.filter(poster__in=followers).all()
-        return queryset
+        profile_id = self.kwargs.get('profile_id')
+        try:
+            profile = Profile.objects.get(pk=profile_id)
+        except Profile.DoesNotExist:
+            return Post.objects.none()
 
+        followers = profile.followers.all()
+        queryset = Post.objects.filter(poster__user__in=followers).all()
+        return queryset
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+# The issue seems to be with the followers attribute of the Profile model being a many-to-many relationship with User.
+# When you call profile.followers.all(), it returns a queryset of User objects, not Profile objects, which causes an issue when trying to filter Post
+#  objects by poster__in=followers, as poster is a foreign key to Profile.
+# To fix this, you can filter Post objects by poster__user__in=followers, which will filter Post objects by the related User objects of the Profile objects in followers.
