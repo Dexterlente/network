@@ -11,17 +11,33 @@ GoCalendar
 const ProfilePage = () => {
     const { id } = useParams();
     const [profile, setProfile] = useState(null);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch(`${API_ENDPOINT}/api/profile/${id}`)
-          .then(response => response.json())
-          .then(data => setProfile(data))
-          .catch(error => console.error(error));
+      Promise.all([
+        fetch(`${API_ENDPOINT}/api/profile/${id}`).then(response => response.json()),
+        fetch(`${API_ENDPOINT}/api/user-post/${id}`).then(response => response.json())
+        ])
+        // .then(data => setProfile(data))
+        .then(([profileData, postData]) => {
+          setProfile(profileData);
+          setData(postData);
+        })
+        .catch(error => console.error(error));
       }, [id]);
 
-      if (!profile) {
+      if (!profile || !data) {
         return <div>Loading...</div>;
       }
+
+      // useEffect(() => {
+      //   fetch(`${API_ENDPOINT}/api/user-post/${id}`)
+      //     .then(response => response.json())
+      //     .then(data => {
+      //       setData(data);
+      //     })
+      //     .catch(error => console.error(error));
+      //     }, [id]);
 
   return (
     <div className='border-solid border-x-2 h-screen'>
