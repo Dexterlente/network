@@ -147,7 +147,7 @@ class PostSerializer(serializers.ModelSerializer):
     liked = serializers.SerializerMethodField()
     poster_first_name = serializers.ReadOnlyField(source='poster.user.first_name')
     poster_last_name = serializers.ReadOnlyField(source='poster.user.last_name')
-    poster_image = serializers.ReadOnlyField(source='poster.user.profile.image')
+    poster_image = serializers.ReadOnlyField(source='poster.user.userprofile.image')
 
     class Meta:
         model = Post

@@ -175,18 +175,18 @@ class UpdateLikeAPIView(APIView):
 class post_list(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-created_date')
     serializer_class = PostSerializer
-    authentication_classes =  [TokenAuthentication] 
+    # authentication_classes =  [TokenAuthentication] 
 
-    def get_permissions(self):
-        permission_classes = []
-        # if self.request.method != 'GET':
-        #     permission_classes = [IsAuthenticated]
-        if self.request.method == 'GET':
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [IsAuthenticated]
+    # def get_permissions(self):
+    #     permission_classes = []
+    #     # if self.request.method != 'GET':
+    #     #     permission_classes = [IsAuthenticated]
+    #     if self.request.method == 'GET':
+    #         permission_classes = [AllowAny]
+    #     else:
+    #         permission_classes = [IsAuthenticated]
 
-        return [permission() for permission in permission_classes]
+        # return [permission() for permission in permission_classes]
 #random post not efficient on prod
 class post_random(generics.ListCreateAPIView):
     serializer_class = PostSerializer
@@ -232,11 +232,16 @@ class post_random(generics.ListCreateAPIView):
 
 class FollowedPostsView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
-    authentication_classes =  [TokenAuthentication] 
-    permission_classes = [IsAuthenticated]
-
+    # authentication_classes =  [TokenAuthentication] 
+    # permission_classes = [IsAuthenticated]
     def get_queryset(self):
-        following = self.request.user.following.all()
+        profile_id = self.kwargs.get('profile_id')
+        try:
+            profile = Profile.objects.get(pk=profile_id)
+        except Profile.DoesNotExist:
+            return Post.objects.none()
+
+        following = profile.user.following.all()
         queryset = Post.objects.filter(poster__in=following).all()
         return queryset
 
@@ -245,3 +250,19 @@ class FollowedPostsView(generics.ListCreateAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
         
+class FollowersPostsView(generics.ListCreateAPIView):
+    serializer_class = PostSerializer
+    # authentication_classes = [TokenAuthentication] 
+    # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # followers = self.request.user.userprofile.followers.all()
+        followers = self.request.user.followers.all()
+        queryset = Post.objects.filter(poster__in=followers).all()
+        return queryset
+
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
