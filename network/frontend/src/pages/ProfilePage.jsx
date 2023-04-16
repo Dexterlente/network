@@ -40,38 +40,21 @@ const ProfilePage = () => {
       Promise.all([
         fetch(`${API_ENDPOINT}/api/profile/${id}`).then(response => response.json()),
         fetch(`${API_ENDPOINT}/api/user-post/${id}`).then(response => response.json()),
+        fetch(`${API_ENDPOINT}/api/posts/followers-post/${id}`).then(response => response.json()),
+        fetch(`${API_ENDPOINT}/api/posts/followed-post/${id}`).then(response => response.json()),
         ])
-        // .then(data => setProfile(data))
-        .then(([profileData, postData]) => {
+        .then(([profileData, postData, followersData, followedData]) => {
           setProfile(profileData);
           setData(postData);
+          setFollowerPost(followersData);
+          setFollowingPost(followedData);
         })
         .catch(error => console.error(error));
       }, [id]);
 
-      if (!profile || !data) {
+      if (!profile || !data || !followingPost || !followerPost) {
         return <div>Loading...</div>;
       }
-      // useEffect(() => {
-      //   fetch(`${API_ENDPOINT}/api/followers-post/${id}`)
-      //     .then((res) => res.json())
-      //     .then((data) => {
-      //       setFollowingPost(data);
-      //     });
-      // }, [id]);
-
-      // useEffect(() => {
-      //   fetch(`${API_ENDPOINT}/api/followed-post/${id}`)
-      //     .then((res) => res.json())
-      //     .then((data) => {
-      //       setFollowerPost(data);
-      //     });
-      // }, [id]);
-
-      // if (!followingPost || !followerPost) {
-      //   return <div>Loading...</div>;
-      // }
-
 
   return (
     <div className='border-solid border-x-2 mb-3'>
