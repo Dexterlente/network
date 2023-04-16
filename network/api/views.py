@@ -242,7 +242,7 @@ class FollowedPostsView(generics.ListCreateAPIView):
             return Post.objects.none()
 
         following = profile.user.following.all()
-        queryset = Post.objects.filter(poster__in=following).all()
+        queryset = Post.objects.filter(poster__in=following).all().order_by('-created_date')
         return queryset
 
     def list(self, request, *args, **kwargs):   
@@ -269,7 +269,7 @@ class FollowersPostsView(generics.ListCreateAPIView):
             return Post.objects.none()
 
         followers = profile.followers.all()
-        queryset = Post.objects.filter(poster__user__in=followers).all()
+        queryset = Post.objects.filter(poster__user__in=followers).all().order_by('-created_date')
         return queryset
 
     def list(self, request, *args, **kwargs):
