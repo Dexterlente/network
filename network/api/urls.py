@@ -30,8 +30,9 @@ urlpatterns = [
     #to like add count and boolean tru ur pulse
     path('posts/<int:post_id>/like', views.UpdateLikeAPIView.as_view()),
     # get followed profiles post
-    path('posts/followed-post/<int:profile_id>', views.FollowedPostsView.as_view()),
-    path('posts/followers-post/<int:profile_id>', views.FollowersPostsView.as_view()),
+    path('posts/followers-post/<int:profile_id>', views.FollowedPostsView.as_view()),
+ 
+    path('posts/followed-post/<int:profile_id>', views.FollowersPostsView.as_view()),
 
     #user post
     path('user-post/<int:profile_id>', views.post_user.as_view()),
