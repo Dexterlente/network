@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import API_ENDPOINT from '../config.jsx'
+import Followers from './Followers.jsx';
 
 const Following = () => {
     const { id } = useParams();
@@ -19,7 +20,10 @@ const Following = () => {
       aw
       <ul>
         {following.map(follower => (
-          <li key={follower.pk}>{follower.first_name}</li>
+          <div key={follower.pk}>
+            <div>{follower.first_name} {follower.last_name}</div>
+            {/* <img src={follower.foll} /> */}
+          </div>
         ))}
       </ul>
     </div>

@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 class ProfileSerializer(serializers.ModelSerializer):
     pk = serializers.IntegerField(source='id', read_only=True)
     user_id = serializers.ReadOnlyField(source='user.id')
-    profile_username = serializers.ReadOnlyField(source='user.username')
+    profile_username = serializers.ReadOnlyField(source='user.username', read_only=True)
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
     currently_following = serializers.SerializerMethodField()
@@ -17,36 +17,45 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields = ['pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'followers', 'following', 'currently_following', 'follow_available', 'image', 'joined_date', 'isVerified']
-
+        # fields = ['__all__']
     def get_followers(self, obj):
         #edit
         if isinstance(obj, Profile):
             return obj.followers.count()
         return 0
 
-    # def get_followers(self, obj):
-    #     return obj.followers.count()
 
     def get_following(self, obj):
         #edit
         if isinstance(obj, Profile):
             return obj.user.following.count()
         return 0
+
+
+    # def get_following(self, obj):
+    #     if isinstance(obj, Profile):
+    #         following = obj.user.following.all()
+    #         following_serializer = self.__class__(following, many=True, context=self.context)
+    #         return following_serializer.data
+    #     return []
     # def get_following(self, obj):
     #     return obj.user.following.count()
 
     def get_currently_following(self, obj):
         user = self.context.get('request').user
         return not user.is_anonymous and obj in user.following.all()
+    # def get_currently_following(self, obj):
+    #     user = self.context.get('request').user
+    #     return user.is_authenticated and user.profile.following.filter(pk=obj.user.pk).exists()
 
     def get_follow_available(self, obj):
         user = self.context.get('request').user
         return (not user.is_anonymous) and obj.user != user
 
-    def get_followers_list(self, obj):
-        followers = obj.followers.all()
-        serializer = ProfileSerializer(followers, many=True, context=self.context, fields=['__all__'])
-        return serializer.data
+    # def get_followers_list(self, obj):
+    #     followers = obj.followers.all()
+    #     serializer = ProfileSerializer(followers, many=True, context=self.context, fields=['__all__'])
+    #     return serializer.data
 
     def get_following_list(self, obj):
         following = obj.following.all()
@@ -165,3 +174,17 @@ class PostSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         return not user.is_anonymous and obj in Profile.objects.filter(user=user).first().get_all_liked_posts.all()
     
+# class FollowerSerializer(serializers.ModelSerializer):
+#     user_id = serializers.IntegerField(source='followers.user.id')
+#     profile_username = serializers.CharField(source='followers.profile.username')
+#     first_name = serializers.CharField(source='followers.first_name')
+#     last_name = serializers.CharField(source='followers.last_name')
+#     image = serializers.CharField(source='followers.profile.image.url', allow_null=True)
+#     joined_date = serializers.DateTimeField(source='followers.date_joined')
+#     isVerified = serializers.BooleanField(source='followers.is_verified')
+#     followers = serializers.SerializerMethodField()
+#     following = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = Profile
+#         fields = ('pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'image', 'joined_date', 'isVerified', 'followers', 'following')
