@@ -96,7 +96,7 @@ class my_profile(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
-        return self.request.user.profile
+        return self.request.user.userprofile
 
 class FollowerListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
