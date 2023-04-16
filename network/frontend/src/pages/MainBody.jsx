@@ -16,7 +16,7 @@ const MainBody = () => {
   return (
     <div>
       {postBody.map(post => (
-        <div key={post.id} className='border-2 border-gray-300 hover:bg-gray-100'>
+        <div key={post.id} className='border-2 border-gray-300 hover:bg-gray-100 transition duration-300 ease-in-out'>
           <div className='flex mt-3 items-center'>
               <div>
                 {post.poster_image ?

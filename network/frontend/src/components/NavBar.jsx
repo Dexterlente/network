@@ -66,18 +66,18 @@ const NavBar = () => {
     <div className='fixed top-0 mr-4'>
       <div className='w-2/5 mt-3'>
         <Link to={"/"}> 
-          <img src={Birdie} alt='BirdieKo' className='h-20 w-20 hover:bg-gray-300 p-5 rounded-3xl'  />
+          <img src={Birdie} alt='BirdieKo' className='h-20 w-20 hover:bg-gray-300 transition duration-300 ease-in-out p-5 rounded-3xl'  />
         </Link>
           <div className='text-2xl'>
             <Link to={"/"} className='flex p-2'>
-            <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
+            <span className='hover:bg-gray-200 transition duration-300 ease-in-out rounded-full flex px-6 py-2'>
               <RiHome7Fill className='mt-1 mr-4'  />
             Home
             </span>
             </Link>
             {isLoggedIn && profileData && (
             <Link to={`/profile/${profileData.pk}`} className='flex p-2'>
-            <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
+            <span className='hover:bg-gray-200 transition duration-300 ease-in-out rounded-full flex px-6 py-2'>
               <BsPerson className='mt-1 mr-4' />
                   Profile </span>
             </Link>
@@ -86,20 +86,20 @@ const NavBar = () => {
             {isLoggedIn ? null : (
             <div>
             <Link to={"/login"} className='flex p-2'>
-            <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
+            <span className='hover:bg-gray-200 transition duration-300 ease-in-out rounded-full flex px-6 py-2'>
               <RiLoginCircleLine className='mt-1 mr-4' />
                   Login </span>
             </Link>
 
             <Link to={"/register"} className='flex p-2'>
-            <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'>
+            <span className='hover:bg-gray-200 transition duration-300 ease-in-out rounded-full flex px-6 py-2'>
               <MdOutlineAppRegistration className='mt-1 mr-4' />
                   Register </span>
             </Link>
             </div>
             )}
             <div className='flex p-2'>
-              <span className='hover:bg-gray-200 rounded-full flex px-6 py-2'> 
+              <span className='hover:bg-gray-200 transition duration-300 ease-in-out rounded-full flex px-6 py-2'> 
               {isLoggedIn && (
                 <AiOutlineLogout className='mt-1 mr-4' />
               )}
@@ -114,7 +114,7 @@ const NavBar = () => {
               )}
           </div>
           {isLoggedIn && profileData && (
-          <div className='fixed bottom-3 flex hover:bg-gray-300 rounded-full px-4'>
+          <div className='fixed bottom-3 flex hover:bg-gray-300 transition duration-300 ease-in-out rounded-full px-4'>
             {profileData.image ? (
            <img src={profileData.image} className='mt-1 mr-2 h-12 w-12 rounded-full' /> ): (
           <CgProfile className='mt-1 mr-2 h-12 w-12'/>

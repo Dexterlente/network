@@ -39,8 +39,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/other" element={<OtherPage />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
-              <Route path="/:id/followers" element={<Followers />} />
-              <Route path="/:id/following" element={<Following />} />
+              <Route path="/profile/:id/followers" element={<Followers />} />
+              <Route path="/profile/:id/following" element={<Following />} />
             </Route>                  
           </Routes>
       </div>
