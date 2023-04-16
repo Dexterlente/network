@@ -13,6 +13,8 @@ const ProfilePage = () => {
     const { id } = useParams();
     const [profile, setProfile] = useState(null);
     const [data, setData] = useState([]);
+    const [followingPost, setFollowingPost] = useState([]);
+    const [followerPost, setFollowerPost] = useState([]);
     const [showDiv1, setShowDiv1] = useState(true);
     const [showDiv2, setShowDiv2] = useState(false);
     const [showDiv3, setShowDiv3] = useState(false);
@@ -37,7 +39,7 @@ const ProfilePage = () => {
     useEffect(() => {
       Promise.all([
         fetch(`${API_ENDPOINT}/api/profile/${id}`).then(response => response.json()),
-        fetch(`${API_ENDPOINT}/api/user-post/${id}`).then(response => response.json())
+        fetch(`${API_ENDPOINT}/api/user-post/${id}`).then(response => response.json()),
         ])
         // .then(data => setProfile(data))
         .then(([profileData, postData]) => {
@@ -50,18 +52,29 @@ const ProfilePage = () => {
       if (!profile || !data) {
         return <div>Loading...</div>;
       }
+      // useEffect(() => {
+      //   fetch(`${API_ENDPOINT}/api/followers-post/${id}`)
+      //     .then((res) => res.json())
+      //     .then((data) => {
+      //       setFollowingPost(data);
+      //     });
+      // }, [id]);
 
       // useEffect(() => {
-      //   fetch(`${API_ENDPOINT}/api/user-post/${id}`)
-      //     .then(response => response.json())
-      //     .then(data => {
-      //       setData(data);
-      //     })
-      //     .catch(error => console.error(error));
-      //     }, [id]);
+      //   fetch(`${API_ENDPOINT}/api/followed-post/${id}`)
+      //     .then((res) => res.json())
+      //     .then((data) => {
+      //       setFollowerPost(data);
+      //     });
+      // }, [id]);
+
+      // if (!followingPost || !followerPost) {
+      //   return <div>Loading...</div>;
+      // }
+
 
   return (
-    <div className='border-solid border-x-2'>
+    <div className='border-solid border-x-2 mb-3'>
       <div className='relative'><img src={bgprofile} className='h-[250px] w-screen' />
             <div className='absolute -bottom-16 left-2 '>
                 <img src={profile.image} className='h-[150px] w-[150px] rounded-full border-4 border-white' />
@@ -79,43 +92,48 @@ const ProfilePage = () => {
             <p>{profile.followers} Following {profile.following} Followers</p>
       </div>
       <div className='font-bold text-2xl grid grid-cols-3 text-center text-gray-600'>
-        <div className='hover:bg-gray-300 py-3'>
+        <div className='hover:bg-gray-300 py-3' onClick={toggleDiv1}>
           Tweets
         </div>
-        <div className='hover:bg-gray-300 py-3'>
+        <div className='hover:bg-gray-300 py-3' onClick={toggleDiv2}>
           Following Post
         </div>
-        <div className='hover:bg-gray-300 py-3'>
+        <div className='hover:bg-gray-300 py-3' onClick={toggleDiv3}>
           Followers Post
         </div>
       </div>
-      {/* first div */}
-      {data.map(post => (
-      <div className='border-y-2 hover:bg-gray-200' key={post.id}>
-          <div className='flex mt-3 items-center'>
-              <div>
-                {post.poster_image ?
-                  <img src={post.poster_image} alt='DisplayPic' className='h-[70px] w-[70px] rounded-full mt-8 ml-3' /> :
-                  <img src={pretty} alt='DefaultPic' className='h-[70px] w-[70px] rounded-full mt-8 ml-3' />
-                  }
-              </div>          
-            <div className='ml-5 font-bold mt-2'> {post.poster_first_name} {post.poster_last_name}</div>
-            <div className='ml-2 mt-2'> @{post.poster_username}</div>
-            <div className='ml-2 mt-2'>      
-            {new Date(post.created_date).toLocaleDateString("en-US", {
-                                                // year: "numeric",
-                                                month: "long",
-                                                day: "numeric",
-                                              })}</div>
-          </div>
-          <p className='w-4/5  mx-auto text-left'>{post.content}</p>
-          <div className='ml-6 mb-3 mt-3 flex'>
-            <p><AiOutlineHeart className='h-6 w-6 mr-1' /></p>
-            <p>{post.likes} Likes</p>
-          </div>
+        {showDiv1 && (
+            <div>
+            {/* first div */}
+            {data.map(post => (
+            <div className='border-y-2 hover:bg-gray-200' key={post.id}>
+                <div className='flex mt-3 items-center'>
+                    <div>
+                      {post.poster_image ?
+                        <img src={post.poster_image} alt='DisplayPic' className='h-[70px] w-[70px] rounded-full mt-8 ml-3' /> :
+                        <img src={pretty} alt='DefaultPic' className='h-[70px] w-[70px] rounded-full mt-8 ml-3' />
+                        }
+                    </div>          
+                  <div className='ml-5 font-bold mt-2'> {post.poster_first_name} {post.poster_last_name}</div>
+                  <div className='ml-2 mt-2'> @{post.poster_username}</div>
+                  <div className='ml-2 mt-2'>      
+                  {new Date(post.created_date).toLocaleDateString("en-US", {
+                                                      // year: "numeric",
+                                                      month: "long",
+                                                      day: "numeric",
+                                                    })}</div>
+                </div>
+                <p className='w-4/5  mx-auto text-left'>{post.content}</p>
+                <div className='ml-6 mb-3 mt-3 flex'>
+                  <p><AiOutlineHeart className='h-6 w-6 mr-1' /></p>
+                  <p>{post.likes} Likes</p>
+                </div>
+            </div>
+            ))}
+            </div>
+        )}
       </div>
-      ))}
-    </div>
+      
   )
 }
 
