@@ -72,16 +72,19 @@ const ProfilePage = () => {
                                                 // day: "numeric",
                                               })}
                                               </p>
-            <p>{profile.followers} Following {profile.following} Followers</p>
+                  <p className='cursor-pointer flex'>
+                      <p className='mr-2 hover:underline'>{profile.followers} Following</p>
+                      <p className='hover:underline'>{profile.following} Followers</p>
+                  </p>
       </div>
       <div className='font-bold text-2xl grid grid-cols-3 text-center text-gray-600'>
-        <div className='hover:bg-gray-300 py-3' onClick={toggleDiv1}>
+        <div className='hover:bg-gray-300 py-3 cursor-pointer' onClick={toggleDiv1}>
           Tweets
         </div>
-        <div className='hover:bg-gray-300 py-3' onClick={toggleDiv2}>
+        <div className='hover:bg-gray-300 py-3 cursor-pointer' onClick={toggleDiv2}>
           Following Post
         </div>
-        <div className='hover:bg-gray-300 py-3' onClick={toggleDiv3}>
+        <div className='hover:bg-gray-300 py-3 cursor-pointer' onClick={toggleDiv3}>
           Followers Post
         </div>
       </div>
