@@ -24,7 +24,7 @@ const MainBody = () => {
                   <img src={pretty} alt='DefaultPic' className='h-[70px] w-[70px] rounded-full mt-8 ml-3' />
                   }
               </div>          
-            <div className='ml-5 font-bold mt-2'> {post.poster_first_name} {post.poster_last_name}</div>
+            <div className='ml-5 font-bold mt-2 hover:underline cursor-pointer'> {post.poster_first_name} {post.poster_last_name}</div>
             <div className='ml-2 mt-2'> @{post.poster_username}</div>
             <div className='ml-2 mt-2'>      
             {new Date(post.created_date).toLocaleDateString("en-US", {
