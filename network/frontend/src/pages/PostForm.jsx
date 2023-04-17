@@ -35,8 +35,8 @@ const PostForm = () => {
               throw new Error('Network response was not ok.');
             })
             .then(data => {
-              setProfileData(data);
-              console.log(setProfileData);
+                setUserPk(data);
+              console.log(setUserPk);
             })
             .catch(error => {
               console.error('Error:', error);
@@ -46,23 +46,25 @@ const PostForm = () => {
 
 
   return (
-    <div>
         <div>
         {isLoggedIn && userPk && (
-          <div className='fixed bottom-3 flex hover:bg-gray-300 transition duration-300 ease-in-out rounded-full px-4'>
-            {userPk.image ? (
-           <img src={userPk.image} className='mt-1 mr-2 h-12 w-12 rounded-full' /> ): (
-          <CgProfile className='mt-1 mr-2 h-12 w-12'/>
-            )}
-          <div>
-            <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
-              <p>@{userPk.profile_username}</p>
-              </div>
+        <>           
+
+            <div className='font-bold text-3xl m-5'>Home</div>
+            <div>
+                {userPk.image ? (
+            <img src={userPk.image} className='h-12 w-12 rounded-full' /> ): (
+            <CgProfile className='h-12 w-12'/>
+                )}
+                        <div>
+                            <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
+                            <p>@{userPk.profile_username} dawe</p>
+                        </div>
         
           </div>
+          </> 
           )}
         </div>
-    </div>
   )
 }
 
