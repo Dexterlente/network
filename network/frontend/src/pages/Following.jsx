@@ -47,7 +47,7 @@ const Following = () => {
              <img src={follower.image} className='h-16 w-16 rounded-full' />
             </div>
             <div className='ml-2 mt-1'>
-                  <div className='font-bold'>{follower.first_name} {follower.last_name}</div>
+                  <Link to={`/profile/${follower.pk}`} className='font-bold cursor-pointer hover:underline'>{follower.first_name} {follower.last_name}</Link>
                   <div>@{follower.profile_username}</div>
             </div>
           </div>
