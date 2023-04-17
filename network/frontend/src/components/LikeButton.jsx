@@ -3,29 +3,6 @@ import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import API_ENDPOINT from '../config.jsx';
 import Cookies from "js-cookie";
 
-const useFetchLikeCount = (id) => {
-  const [likeCount, setLikeCount] = useState(null);
-  const token = Cookies.get('token');
-  
-  useEffect(() => {
-    fetch(`${API_ENDPOINT}/api/posts/${id}/like`, {
-      headers: {
-        'Authorization': `Token ${token}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        setLikeCount(data.Count);
-      })
-      .catch(error => {
-        console.error('Error fetching like count:', error);
-      });
-  }, [id, token]);
-
-  return likeCount;
-};
-
-
 const useLikePost = (id) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(null);
@@ -48,6 +25,24 @@ const useLikePost = (id) => {
         console.error('Error liking post:', error);
       });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_ENDPOINT}/api/posts/${id}`, {
+          headers: {
+            'Authorization': `Token ${token}`,
+          },
+        });
+        const data = await response.json();
+        setLikeCount(data.likes);
+      } catch (error) {
+        console.error('Error fetching like count:', error);
+      }
+    };
+
+    fetchData();
+  }, [id, token]);
 
   useEffect(() => {
     fetch(`${API_ENDPOINT}/api/posts/${id}/like`, {
