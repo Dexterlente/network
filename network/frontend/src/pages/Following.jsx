@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import API_ENDPOINT from '../config.jsx'
-import Followers from './Followers.jsx';
 import { BsArrowLeft } from 'react-icons/bs';
 
 const Following = () => {
     const { id } = useParams();
     const [data, setData] = useState(null);
     const [following, setFollowing] = useState([]);
-    // const [showDiv1, setShowDiv1] = useState(true);
-    // const [showDiv2, setShowDiv2] = useState(false);
 
     useEffect(() => {
       fetch(`${API_ENDPOINT}/api/profile/${id}`)
@@ -18,15 +15,6 @@ const Following = () => {
         .catch(error => console.error(error));
     }, []);
 
-    // const toggleDiv1 = () => {
-    //   setShowDiv1(true);
-    //   setShowDiv2(false);
-    // };
-    
-    // const toggleDiv2 = () => {
-    //   setShowDiv1(false);
-    //   setShowDiv2(true);
-    // };
 
   useEffect(() => {
     fetch(`${API_ENDPOINT}/api/profile/${id}/followers`)
@@ -49,8 +37,8 @@ const Following = () => {
             </div>
         </div>
         <div className='grid grid-cols-2 text-center text-lg border-b-2'>
-          <p className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' onClick={toggleDiv1}>Followers</p>
-          <p className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' onClick={toggleDiv2}>Following</p>           
+          <p className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' >Followers</p>
+          <p className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' >Following</p>           
         </div>
       <ul>
         {following.map(follower => (
