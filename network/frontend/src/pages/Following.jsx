@@ -40,9 +40,9 @@ const Following = () => {
   return (
     <div className='border-x-2 h-screen'>
         <div className='ml-5 mt-5 grid grid-cols-10'>
-            <div className='w-4/12'>
+            <Link to={`/profile/${id}`} className='w-4/12'>
               <BsArrowLeft className='h-8 w-8 mt-3' />
-            </div>
+            </Link>
             <div className='col-span-3'>
               <h1 className='text-3xl font-semibold'>{data.first_name} {data.last_name}
               <h2 className='font-normal text-lg text-gray-600'>@{data.profile_username}</h2></h1>

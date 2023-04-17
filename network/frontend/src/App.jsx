@@ -10,7 +10,7 @@ const OtherPage = lazy(() => import("./pages/OtherPage"));
 const Registration = lazy(() => import("./pages/Registration"));
 const Login = lazy(() => import("./pages/Login"));
 // const ProfilePage = lazy(() => import("./pages/ProfilePage"));
-const Followers = lazy(() => import("./pages/Followers"));
+// const Followers = lazy(() => import("./pages/Followers"));
 const Following = lazy(() => import("./pages/Following"));
 
 
@@ -39,8 +39,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/other" element={<OtherPage />} />
               <Route path="/profile/:id" element={<ProfilePage />} />
-              <Route path="/profile/:id/followers" element={<Followers />} />
-              <Route path="/profile/:id/following" element={<Following />} />
+              {/* <Route path="/profile/:id/followers" element={<Followers />} /> */}
+              <Route path="/profile/:id/following-and-followers" element={<Following />} />
             </Route>                  
           </Routes>
       </div>
