@@ -37,8 +37,8 @@ const Following = () => {
             </div>
         </div>
         <div className='grid grid-cols-2 text-center text-lg border-b-2'>
-          <Link to={`/profile/${id}/followers`}  className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' >Followers</Link>
-          <Link to={`/profile/${id}/following`} className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' >Following</Link>           
+          <Link to={`/profile/${id}/following`}  className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer underline decoration-indigo-500 decoration-4' >Following</Link>
+          <Link to={`/profile/${id}/followers`} className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer'>Followers</Link>           
         </div>
       <ul>
         {following.map(follower => (

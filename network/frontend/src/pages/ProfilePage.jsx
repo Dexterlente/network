@@ -73,8 +73,8 @@ const ProfilePage = () => {
                                               })}
                                               </p>
                   <p className='cursor-pointer flex'>
-                      <p className='mr-2 hover:underline'>{profile.followers} Following</p>
-                      <p className='hover:underline'>{profile.following} Followers</p>
+                      <Link to={`/profile/${id}/following`} className='mr-2 hover:underline'>{profile.followers} Following</Link>
+                      <Link to={`/profile/${id}/followers`} className='hover:underline'>{profile.following} Followers</Link>
                   </p>
       </div>
       <div className='font-bold text-2xl grid grid-cols-3 text-center text-gray-600'>
