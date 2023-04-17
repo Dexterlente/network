@@ -171,6 +171,10 @@ class UpdateLikeAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
+    def get(self, request, post_id):
+        post = Post.objects.get(id=post_id)
+        return Response({"Count": post.likes.count()}, status=200)
+
     def post(self, request, post_id):
         profile = Profile.objects.filter(user=request.user).first()
         post = Post.objects.get(id=post_id)
