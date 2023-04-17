@@ -18,9 +18,11 @@ const ProfilePage = () => {
     const [data, setData] = useState([]);
     const [followingPost, setFollowingPost] = useState([]);
     const [followerPost, setFollowerPost] = useState([]);
+    const [userPk, setUserPk] = useState(null);
     const [showDiv1, setShowDiv1] = useState(true);
     const [showDiv2, setShowDiv2] = useState(false);
     const [showDiv3, setShowDiv3] = useState(false);
+    const token = Cookies.get('token');
 
     const toggleDiv1 = () => {
       setShowDiv1(true);
@@ -40,6 +42,19 @@ const ProfilePage = () => {
     };
 
     useEffect(() => {
+      const token = Cookies.get('token');
+      fetch(`${API_ENDPOINT}/api/my-profile/`, {
+        headers: {
+          'Authorization': `Token ${token}`
+        },
+      })
+      .then(response => response.json())
+      .then(data => setUserPk(data))
+      .catch(error => console.error(error));
+    }, [token]);
+  
+
+    useEffect(() => {
       Promise.all([
         fetch(`${API_ENDPOINT}/api/profile/${id}`).then(response => response.json()),
         fetch(`${API_ENDPOINT}/api/user-post/${id}`).then(response => response.json()),
@@ -55,9 +70,10 @@ const ProfilePage = () => {
         .catch(error => console.error(error));
       }, [id]);
 
-      if (!profile || !data || !followingPost || !followerPost) {
+      if (!profile || !data || !followingPost || !followerPost || !userPk) {
         return <div>Loading...</div>;
       }
+      
 
   return (
     <div className='border-solid border-x-2 mb-3'>
@@ -65,9 +81,14 @@ const ProfilePage = () => {
             <div className='absolute -bottom-16 left-2 '>
                 <img src={profile.image} className='h-[150px] w-[150px] rounded-full border-4 border-white' />
             </div>
+            {!token ? null : (
             <div className='absolute right-3'>
+              {/* OMG DONT RENDER IF URL ID AND TOKEN ID MATCH */}
+              {userPk && (userPk.pk == parseInt(id)) ? null :
             <FollowButton userId={profile.pk}/>
+              }
             </div>
+            )}
       </div>
       <div className='mt-[70px] ml-4 text-gray-600'>
             <p className='font-bold text-2xl text-black'>{profile.first_name} {profile.last_name}</p>
