@@ -4,6 +4,7 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import API_ENDPOINT from '../config.jsx' 
 import { Link } from 'react-router-dom';
 import LikeButton from '../components/LikeButton'
+import PostForm from './PostForm'
 
 const MainBody = () => {
   // const { id } = useParams();
@@ -18,6 +19,9 @@ const MainBody = () => {
 
   return (
     <div>
+      <div>
+        <PostForm />
+      </div>
       {postBody.map(post => (
         <div key={post.id} className='border-2 border-gray-300 hover:bg-gray-100 transition duration-300 ease-in-out'>
           <div className='flex mt-3 items-center'>
