@@ -146,7 +146,10 @@ class UpdateFollowAPIView(APIView):
                 newStatus = True
                 profile.followers.add(request.user)
             profile.save()
-            return Response({"newFollower": newStatus, "new follow or unfollow count": profile.followers.count()}, status=200)
+            return Response({"newFollower": newStatus, 
+            "new follow or unfollow count": profile.followers.count(),
+            "is_following": profile in request.user.following.all()
+            },status=200)
 
 class post_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()

@@ -7,6 +7,8 @@ import bgprofile from '../assets/bgprofile.png'
 import pretty from '../assets/pretty.png'
 import { AiOutlineHeart } from 'react-icons/ai';
 import LikeButton from '../components/LikeButton'
+import FollowButton from '../components/FollowButton.jsx'
+
 
 GoCalendar
 
@@ -62,6 +64,9 @@ const ProfilePage = () => {
       <div className='relative'><img src={bgprofile} className='h-[250px] w-screen' />
             <div className='absolute -bottom-16 left-2 '>
                 <img src={profile.image} className='h-[150px] w-[150px] rounded-full border-4 border-white' />
+            </div>
+            <div className='absolute right-3'>
+            <FollowButton userId={profile.pk}/>
             </div>
       </div>
       <div className='mt-[70px] ml-4 text-gray-600'>

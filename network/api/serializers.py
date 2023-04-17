@@ -11,12 +11,13 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_username = serializers.ReadOnlyField(source='user.username', read_only=True)
     followers = serializers.SerializerMethodField()
     following = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
     currently_following = serializers.SerializerMethodField()
     follow_available = serializers.SerializerMethodField()
 
     class Meta:
         model = Profile
-        fields = ['pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'followers', 'following', 'currently_following', 'follow_available', 'image', 'joined_date', 'isVerified']
+        fields = ['pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'followers','currently_following', 'is_following', 'follow_available', 'following', 'image', 'joined_date', 'isVerified']
         # fields = ['__all__']
     def get_followers(self, obj):
         #edit
@@ -40,6 +41,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     #     return []
     # def get_following(self, obj):
     #     return obj.user.following.count()
+    def get_is_following(self, profile):
+        request = self.context.get('request')
+        if request.user.is_authenticated:
+            return profile.followers.filter(id=request.user.id).exists()
+        return False
 
     def get_currently_following(self, obj):
         user = self.context.get('request').user
