@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 const useLikePost = (id) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const token = Cookies.get('token');
   
   const likePost = () => {
@@ -36,6 +37,10 @@ const useLikePost = (id) => {
         });
         const data = await response.json();
         setLikeCount(data.likes);
+         // check if the current user has liked the post
+         setIsLiked(data.liked);
+         setIsLoading(false);
+
       } catch (error) {
         console.error('Error fetching like count:', error);
       }
@@ -60,11 +65,11 @@ const useLikePost = (id) => {
       });
   }, [id, token]);
   
-  return { likePost, isLiked, likeCount };
+  return { likePost, isLiked, likeCount, isLoading };
 };
 
 const LikeButton = ({ postId }) => {
-  const { likePost, isLiked , likeCount } = useLikePost(postId);
+  const { likePost, isLiked , likeCount, isLoading } = useLikePost(postId);
 
   const handleClick = () => {
     likePost();
@@ -72,7 +77,10 @@ const LikeButton = ({ postId }) => {
 
   return (
     <button onClick={handleClick} className='flex'>
-      {isLiked ? (
+       {isLoading ? (
+        // Show a loading icon while waiting for the server response
+        <span>Loading...</span>
+      ) : isLiked ? (
           <><AiFillHeart className='h-6 w-6 mr-1 text-gray-500' /></> ) : (
           <><AiOutlineHeart className='h-6 w-6 mr-1' />
           </>
