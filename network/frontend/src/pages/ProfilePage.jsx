@@ -6,6 +6,7 @@ import { GoCalendar } from 'react-icons/go';
 import bgprofile from '../assets/bgprofile.png'
 import pretty from '../assets/pretty.png'
 import { AiOutlineHeart } from 'react-icons/ai';
+import LikeButton from '../components/LikeButton'
 
 GoCalendar
 
@@ -112,8 +113,11 @@ const ProfilePage = () => {
                 </div>
                 <p className='w-4/5  mx-auto text-left'>{post.content}</p>
                 <div className='ml-6 mb-3 mt-3 flex'>
-                  <p><AiOutlineHeart className='h-6 w-6 mr-1' /></p>
-                  <p>{post.likes} Likes</p>
+                  {/* <p><AiOutlineHeart className='h-6 w-6 mr-1' /></p> */}
+                  <LikeButton postId={post.id} />
+                  <p>
+                    {/* {post.likes}  */}
+                  Likes</p>
                 </div>
             </div>
             ))}

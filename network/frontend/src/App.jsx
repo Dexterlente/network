@@ -6,7 +6,7 @@ import { Outlet, Route, Routes } from 'react-router-dom'
 import { lazy, Suspense, useState } from "react";
 import ProfilePage from './pages/ProfilePage'
 // const MainBody = lazy(() => import("./pages/MainBody"));
-const OtherPage = lazy(() => import("./pages/OtherPage"));
+// const OtherPage = lazy(() => import("./pages/OtherPage"));
 const Registration = lazy(() => import("./pages/Registration"));
 const Login = lazy(() => import("./pages/Login"));
 // const ProfilePage = lazy(() => import("./pages/ProfilePage"));
@@ -37,7 +37,7 @@ function App() {
               <Route path="/" element={<MainBody />} />
               <Route path="/register" element={<Registration />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/other" element={<OtherPage />} />
+              {/* <Route path="/other" element={<OtherPage />} /> */}
               <Route path="/profile/:id" element={<ProfilePage />} />
               <Route path="/profile/:id/followers" element={<Followers />} />
               <Route path="/profile/:id/following" element={<Following />} />

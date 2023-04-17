@@ -25,6 +25,7 @@ const useFetchLikeCount = (id) => {
   return likeCount;
 };
 
+
 const useLikePost = (id) => {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(null);
@@ -49,7 +50,6 @@ const useLikePost = (id) => {
   };
 
   useEffect(() => {
-    setLikeCount(useFetchLikeCount(id));
     fetch(`${API_ENDPOINT}/api/posts/${id}/like`, {
       headers: {
         'Authorization': `Token ${token}`,
@@ -58,6 +58,7 @@ const useLikePost = (id) => {
       .then(response => response.json())
       .then(data => {
         setIsLiked(data.liked);
+        // setLikeCount(data.Count);
       })
       .catch(error => {
         console.error('Error fetching like count:', error);
@@ -76,9 +77,18 @@ const LikeButton = ({ postId }) => {
 
   return (
     <button onClick={handleClick} className='flex'>
-      {isLiked ? <><AiFillHeart className='h-6 w-6 mr-1 text-gray-500' /></> : <><AiOutlineHeart className='h-6 w-6 mr-1' /></>}
-      {likeCount != null ? likeCount : "Loading..."}
+      {isLiked ? (
+          <><AiFillHeart className='h-6 w-6 mr-1 text-gray-500' /></> ) : (
+          <><AiOutlineHeart className='h-6 w-6 mr-1' />
+          </>
+      )}
+      {/* {likeCount} */}
+      {likeCount !== null && likeCount}
+
+      {/* {isLiked ? 'Liked!' : 'Like'} */}
+      {/* {likeCount !== null && <span>{likeCount}</span>} */}
     </button>
+    
   );
 };
 
