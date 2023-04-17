@@ -8,8 +8,8 @@ const Following = () => {
     const { id } = useParams();
     const [data, setData] = useState(null);
     const [following, setFollowing] = useState([]);
-    const [showDiv1, setShowDiv1] = useState(true);
-    const [showDiv2, setShowDiv2] = useState(false);
+    // const [showDiv1, setShowDiv1] = useState(true);
+    // const [showDiv2, setShowDiv2] = useState(false);
 
     useEffect(() => {
       fetch(`${API_ENDPOINT}/api/profile/${id}`)
@@ -18,15 +18,15 @@ const Following = () => {
         .catch(error => console.error(error));
     }, []);
 
-    const toggleDiv1 = () => {
-      setShowDiv1(true);
-      setShowDiv2(false);
-    };
+    // const toggleDiv1 = () => {
+    //   setShowDiv1(true);
+    //   setShowDiv2(false);
+    // };
     
-    const toggleDiv2 = () => {
-      setShowDiv1(false);
-      setShowDiv2(true);
-    };
+    // const toggleDiv2 = () => {
+    //   setShowDiv1(false);
+    //   setShowDiv2(true);
+    // };
 
   useEffect(() => {
     fetch(`${API_ENDPOINT}/api/profile/${id}/followers`)
@@ -52,7 +52,6 @@ const Following = () => {
           <p className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' onClick={toggleDiv1}>Followers</p>
           <p className='hover:bg-gray-300 transition duration-300 ease-in-out py-5 cursor-pointer' onClick={toggleDiv2}>Following</p>           
         </div>
-        {showDiv1 && (
       <ul>
         {following.map(follower => (
           <div key={follower.pk} className='grid grid-cols-10 py-4  hover:bg-gray-200 transition duration-300 ease-in-out'>
@@ -66,10 +65,7 @@ const Following = () => {
           </div>
         ))}
       </ul>
-        )}
-        {showDiv2 && (
-          <Followers />
-        )}
+
     </div>
   )
 }
