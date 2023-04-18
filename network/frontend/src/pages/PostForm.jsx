@@ -61,11 +61,11 @@ const PostForm = () => {
                   </div>
                             {/* <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
                             <p>@{userPk.profile_username} dawe</p> */}
-                            <div className='w-full h-16 pl-6 my-6' >
+                            <div className='w-full h-16 pl-6 my-6 relative' >
                             <form>
                               <textarea  type="text" className='w-full border-y-2 h-[60px] resize-none text-lg focus:outline-none placeholder-text-3xl' maxLength="280" placeholder="What's happening?"
                               />
-                              <button className='rounded-full border-blue-400 border-2 border-solid mt-1 ml-5 bg-blue-400 text-white font-bold p-2 px-5' type="submit">Tweet</button>
+                              <button className='absolute -bottom-11 right-3 rounded-full border-blue-400 border-2 border-solid mt-1 ml-5 bg-blue-400 text-white font-bold p-2 px-5' type="submit">Tweet</button>
                            </form>       
                            </div> 
           </div>
