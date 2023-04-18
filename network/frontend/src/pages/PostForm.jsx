@@ -46,21 +46,26 @@ const PostForm = () => {
 
 
   return (
-        <div>
+        <div className='border-x-2'>
         {isLoggedIn && userPk && (
         <>           
 
             <div className='font-bold text-3xl m-5'>Home</div>
-            <div>
-                {userPk.image ? (
-            <img src={userPk.image} className='h-12 w-12 rounded-full' /> ): (
-            <CgProfile className='h-12 w-12'/>
-                )}
-                        <div>
-                            <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
-                            <p>@{userPk.profile_username} dawe</p>
-                        </div>
-        
+            <div className='flex border-y-2'>
+                  <div>
+                      {userPk.image ? (
+                      <img src={userPk.image} className='h-[60px] w-[60px] rounded-full mt-6 ml-3' /> ): (
+                      <CgProfile className='h-[60px] w-[60px]'/>
+                      )}
+                  </div>
+                            {/* <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
+                            <p>@{userPk.profile_username} dawe</p> */}
+                            <div className='w-full h-16 pl-6 my-6'>
+                            <form >
+                              <input type="text" className='w-5/6 h-16' placeholder="What's happening?">
+                              </input>
+                           </form>       
+                           </div> 
           </div>
           </> 
           )}
