@@ -43,6 +43,7 @@ const PostForm = () => {
             });
         }
       }, []);
+      
 
 
   return (
@@ -51,7 +52,7 @@ const PostForm = () => {
         <>           
 
             <div className='font-bold text-3xl m-5'>Home</div>
-            <div className='flex border-y-2'>
+            <div className='flex border-t-2 mb-6'>
                   <div>
                       {userPk.image ? (
                       <img src={userPk.image} className='h-[60px] w-[60px] rounded-full mt-6 ml-3' /> ): (
@@ -60,10 +61,11 @@ const PostForm = () => {
                   </div>
                             {/* <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
                             <p>@{userPk.profile_username} dawe</p> */}
-                            <div className='w-full h-16 pl-6 my-6'>
-                            <form >
-                              <input type="text" className='w-5/6 h-16' placeholder="What's happening?">
-                              </input>
+                            <div className='w-full h-16 pl-6 my-6' >
+                            <form>
+                              <textarea  type="text" className='w-full border-y-2 h-[60px] resize-none text-lg focus:outline-none placeholder-text-3xl' maxLength="280" placeholder="What's happening?"
+                              />
+                              <button className='rounded-full border-blue-400 border-2 border-solid mt-1 ml-5 bg-blue-400 text-white font-bold p-2 px-5' type="submit">Tweet</button>
                            </form>       
                            </div> 
           </div>
