@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom'
 const PostForm = () => {
     const [userPk, setUserPk] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [content, setContent] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Check user's login status
@@ -45,6 +47,41 @@ const PostForm = () => {
       }, []);
       // state change
 
+      const handleContentChange = (event) => {
+        setContent(event.target.value);
+      };
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        
+      const postData = {
+        content: content,
+      };
+      
+  const token = Cookies.get('token');
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': `Token ${token}`,
+    },
+    body: JSON.stringify(postData),
+  };
+  
+      fetch(`${API_ENDPOINT}/api/posts/`, requestOptions)
+  
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(requestOptions);
+          console.log("New article created:", data);
+          setContent("");
+          navigate("/");
+        })  
+        .catch((error) => {
+          console.error(error);
+        });       
+    };
+
 
   return (
         <div className='border-x-2'>
@@ -62,8 +99,8 @@ const PostForm = () => {
                             {/* <p className='font-bold'>{userPk.first_name} {userPk.last_name}</p>
                             <p>@{userPk.profile_username} dawe</p> */}
                             <div className='w-full h-16 pl-6 my-6 relative' >
-                            <form>
-                              <textarea  type="text" className='w-full border-y-2 h-[60px] resize-none text-lg focus:outline-none placeholder-text-3xl' maxLength="280" placeholder="What's happening?"
+                            <form onSubmit={handleSubmit}>
+                              <textarea value={content} onChange={handleContentChange} type="text" className='w-full border-y-2 h-[60px] resize-none text-lg focus:outline-none placeholder-text-3xl' maxLength="280" placeholder="What's happening?"
                               />
                               <button className='absolute -bottom-11 right-3 rounded-full border-blue-400 border-2 border-solid mt-1 ml-5 bg-blue-400 text-white font-bold p-2 px-5' type="submit">Tweet</button>
                            </form>       
