@@ -161,17 +161,25 @@ class PostSerializer(serializers.ModelSerializer):
     poster_id = serializers.ReadOnlyField(source='poster.id')
     likes = serializers.SerializerMethodField()
     liked = serializers.SerializerMethodField()
+    poster = ProfileSerializer(read_only=True)
     poster_first_name = serializers.ReadOnlyField(source='poster.user.first_name')
     poster_last_name = serializers.ReadOnlyField(source='poster.user.last_name')
     poster_image = serializers.ReadOnlyField(source='poster.user.userprofile.image')
 
     class Meta:
         model = Post
-        fields = ['id', 'content', 'poster_username', 'poster_id', 'created_date', 'likes', 'liked', 'poster_first_name', 'poster_last_name','poster_image']
+        fields = ['id', 'content', 'poster', 'poster_username', 'poster_id', 'created_date', 'likes', 'liked', 'poster_first_name', 'poster_last_name','poster_image']
 
+    # def create(self, validated_data):
+    #     validated_data['poster'] = self.context['request'].user
+    #     return super().create(validated_data)
     def create(self, validated_data):
-        validated_data['poster'] = self.context['request'].user
+        # Get the authenticated user's profile instance
+        profile = self.context['request'].user.userprofile
+        # Set the profile instance as the poster for the new post
+        validated_data['poster'] = profile
         return super().create(validated_data)
+
 
     def get_likes(self, obj):
         return obj.likes.count()
@@ -180,17 +188,3 @@ class PostSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         return not user.is_anonymous and obj in Profile.objects.filter(user=user).first().get_all_liked_posts.all()
     
-# class FollowerSerializer(serializers.ModelSerializer):
-#     user_id = serializers.IntegerField(source='followers.user.id')
-#     profile_username = serializers.CharField(source='followers.profile.username')
-#     first_name = serializers.CharField(source='followers.first_name')
-#     last_name = serializers.CharField(source='followers.last_name')
-#     image = serializers.CharField(source='followers.profile.image.url', allow_null=True)
-#     joined_date = serializers.DateTimeField(source='followers.date_joined')
-#     isVerified = serializers.BooleanField(source='followers.is_verified')
-#     followers = serializers.SerializerMethodField()
-#     following = serializers.SerializerMethodField()
-
-#     class Meta:
-#         model = Profile
-#         fields = ('pk', 'user_id', 'profile_username', 'first_name', 'last_name', 'image', 'joined_date', 'isVerified', 'followers', 'following')

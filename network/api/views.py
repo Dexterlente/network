@@ -195,18 +195,19 @@ class UpdateLikeAPIView(APIView):
 class post_list(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-created_date')
     serializer_class = PostSerializer
-    # authentication_classes =  [TokenAuthentication] 
+    authentication_classes =  [TokenAuthentication] 
 
-    # def get_permissions(self):
-    #     permission_classes = []
-    #     # if self.request.method != 'GET':
-    #     #     permission_classes = [IsAuthenticated]
-    #     if self.request.method == 'GET':
-    #         permission_classes = [AllowAny]
-    #     else:
-    #         permission_classes = [IsAuthenticated]
+    def get_permissions(self):
+        permission_classes = []
+        # if self.request.method != 'GET':
+        #     permission_classes = [IsAuthenticated]
+        if self.request.method == 'GET':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
 
-        # return [permission() for permission in permission_classes]
+        return [permission() for permission in permission_classes]
+
 #random post not efficient on prod
 class post_random(generics.ListCreateAPIView):
     serializer_class = PostSerializer
