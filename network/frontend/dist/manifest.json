@@ -1,0 +1,69 @@
+{
+  "index.css": {
+    "file": "assets/index-c7903fc4.css",
+    "src": "index.css"
+  },
+  "index.html": {
+    "assets": [
+      "assets/Birdie-9bac35ac.png",
+      "assets/pretty-0c18de06.png",
+      "assets/bgprofile-8f83212d.png"
+    ],
+    "css": [
+      "assets/index-c7903fc4.css"
+    ],
+    "dynamicImports": [
+      "src/pages/Registration.jsx",
+      "src/pages/Login.jsx",
+      "src/pages/Followers.jsx",
+      "src/pages/Following.jsx"
+    ],
+    "file": "assets/index-335e13f3.js",
+    "isEntry": true,
+    "src": "index.html"
+  },
+  "src/assets/Birdie.png": {
+    "file": "assets/Birdie-9bac35ac.png",
+    "src": "src/assets/Birdie.png"
+  },
+  "src/assets/bgprofile.png": {
+    "file": "assets/bgprofile-8f83212d.png",
+    "src": "src/assets/bgprofile.png"
+  },
+  "src/assets/pretty.png": {
+    "file": "assets/pretty-0c18de06.png",
+    "src": "src/assets/pretty.png"
+  },
+  "src/pages/Followers.jsx": {
+    "file": "assets/Followers-ef08a628.js",
+    "imports": [
+      "index.html"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/pages/Followers.jsx"
+  },
+  "src/pages/Following.jsx": {
+    "file": "assets/Following-6567d196.js",
+    "imports": [
+      "index.html"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/pages/Following.jsx"
+  },
+  "src/pages/Login.jsx": {
+    "file": "assets/Login-39e625c9.js",
+    "imports": [
+      "index.html"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/pages/Login.jsx"
+  },
+  "src/pages/Registration.jsx": {
+    "file": "assets/Registration-49d9ba8e.js",
+    "imports": [
+      "index.html"
+    ],
+    "isDynamicEntry": true,
+    "src": "src/pages/Registration.jsx"
+  }
+}

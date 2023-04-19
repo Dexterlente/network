@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     #i forgot this shit lol
     'corsheaders.middleware.CorsMiddleware',
+     # white noise static
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,7 +67,10 @@ ROOT_URLCONF = 'network.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [
+        #     os.path.join(BASE_DIR / 'frontend')
+        # ],
+                'DIRS': [BASE_DIR / 'frontend'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -139,3 +145,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Allow cookies to be included in cross-origin requests.
 CORS_ALLOW_CREDENTIALS = True
+
+# STATIC_URL = '/static/'
+# STATICFILES_DIRS = [os.path.join(
+#     BASE_DIR / "dist",
+# ),]
+
+# STATIC_ROOT = BASE_DIR / "static"
+
+# STATICFILES_DIRS = [os.path.join(
+#     BASE_DIR, 'frontend/dist/assets'),]
+    
+# STATIC_ROOT = os.path.join(BASE_DIR, 'dist/assets')
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
