@@ -5,6 +5,6 @@ vite + react djangorest
 
 ### Project Structure
 
-`frontend` - for frontend react folder
-`api` = backend api logic
-`network` = django settings
+- `frontend` - for frontend react folder
+- `api` = backend api logic
+- `network` = django settings
