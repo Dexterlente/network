@@ -1,0 +1,3 @@
+# network
+
+vite + react djangorest
