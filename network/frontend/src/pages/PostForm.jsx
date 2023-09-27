@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie';
 import API_ENDPOINT from '../config.jsx'
 import { Link, useNavigate } from 'react-router-dom'
+import { CgProfile } from 'react-icons/cg';
 
 const PostForm = () => {
     const [userPk, setUserPk] = useState(null);

@@ -52,7 +52,7 @@ MIDDLEWARE = [
     #i forgot this shit lol
     'corsheaders.middleware.CorsMiddleware',
      # white noise static
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

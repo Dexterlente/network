@@ -18,19 +18,22 @@ import random
 class UserViewSet(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    
+
+
 class IsOwner(BasePermission):
     """
     Custom permission to only allow owners of an object to access it.
     """
+
     def has_object_permission(self, request, view, obj):
         return obj.user == request.user
+
 
 class LoginAPIView(ObtainAuthToken):
     def post(self, request):
         if request.user.is_authenticated:
             return Response({'error': 'User is already authenticated.'}, status=status.HTTP_400_BAD_REQUEST)
-        
+
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             user = serializer.validated_data['user']
@@ -39,6 +42,7 @@ class LoginAPIView(ObtainAuthToken):
         else:
             return Response({'error': 'Invalid login credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+
 class LogoutView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -46,6 +50,7 @@ class LogoutView(APIView):
     def post(self, request, format=None):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(["POST"])
 @permission_classes([AllowAny])
@@ -59,10 +64,11 @@ def register(request):
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class profile_list(generics.ListCreateAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
-    # authentication_classes =  [TokenAuthentication] 
+    # authentication_classes =  [TokenAuthentication]
     # permission_classes = [IsAdminUser]
     """get request needs to be a user
     and other request needs to be an admin"""
@@ -72,11 +78,12 @@ class profile_list(generics.ListCreateAPIView):
     #     else:
     #         return [IsOwner()]
 
+
 class profile_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     lookup_field = 'id'
-    authentication_classes =  [TokenAuthentication] 
+    authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         # return Profile.objects.filter(user=self.request.user)
@@ -87,6 +94,7 @@ class profile_detail(generics.RetrieveUpdateDestroyAPIView):
             return [AllowAny()]
         else:
             return [IsAdminUser(), IsOwner()]
+
 
 class my_profile(generics.RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
@@ -100,7 +108,8 @@ class my_profile(generics.RetrieveUpdateDestroyAPIView):
 
 # class FollowerListAPIView(generics.ListAPIView):
 #     serializer_class = ProfileSerializer
-    
+
+
 #     def get_queryset(self):
 #         user_id = self.kwargs['id']
 #         profile = Profile.objects.get(id=user_id)
@@ -108,10 +117,11 @@ class my_profile(generics.RetrieveUpdateDestroyAPIView):
 """
 In this code, we first get the Profile object of the user with the given user_id. We then get the queryset of User objects for the followers of this Profile object.
  Finally, we filter the Profile objects based on these User objects using the __in lookup, and return the filtered queryset."""
- 
+
+
 class FollowerListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
-    
+
     def get_queryset(self):
         user_id = self.kwargs['id']
         profile = Profile.objects.get(user_id=user_id)
@@ -122,11 +132,12 @@ class FollowerListAPIView(generics.ListAPIView):
 
 class FollowingListAPIView(generics.ListAPIView):
     serializer_class = ProfileSerializer
-    
+
     def get_queryset(self):
         user_id = self.kwargs['id']
         profile = Profile.objects.get(user_id=user_id)
         return profile.user.following.all()
+
 
 class UpdateFollowAPIView(APIView):
     serializer_class = ProfileSerializer
@@ -146,21 +157,24 @@ class UpdateFollowAPIView(APIView):
                 newStatus = True
                 profile.followers.add(request.user)
             profile.save()
-            return Response({"newFollower": newStatus, 
-            "new follow or unfollow count": profile.followers.count(),
-            "is_following": profile in request.user.following.all()
-            },status=200)
+            return Response({"newFollower": newStatus,
+                             "new follow or unfollow count": profile.followers.count(),
+                             "is_following": profile in request.user.following.all()
+                             }, status=200)
+
 
 class post_detail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     lookup_field = 'id'
-    authentication_classes =  [TokenAuthentication] 
+    authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         return Post.objects.filter(id=self.kwargs['id'])
 # lemme fix this in a while
-#post user fixed
+# post user fixed
+
+
 class post_user(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     authentication_classes = [TokenAuthentication]
@@ -168,6 +182,7 @@ class post_user(generics.ListCreateAPIView):
     def get_queryset(self):
         profile_id = self.kwargs['profile_id']
         return Post.objects.filter(poster__user__id=profile_id).order_by('-created_date')
+
 
 class UpdateLikeAPIView(APIView):
     serializer_class = ProfileSerializer
@@ -191,11 +206,10 @@ class UpdateLikeAPIView(APIView):
         return Response({"liked": newStatus, "Count": post.likes.count()}, status=200)
 
 
-
 class post_list(generics.ListCreateAPIView):
     queryset = Post.objects.all().order_by('-created_date')
     serializer_class = PostSerializer
-    authentication_classes =  [TokenAuthentication] 
+    authentication_classes = [TokenAuthentication]
 
     def get_permissions(self):
         permission_classes = []
@@ -208,7 +222,9 @@ class post_list(generics.ListCreateAPIView):
 
         return [permission() for permission in permission_classes]
 
-#random post not efficient on prod
+# random post not efficient on prod
+
+
 class post_random(generics.ListCreateAPIView):
     serializer_class = PostSerializer
     authentication_classes = [TokenAuthentication]
@@ -218,12 +234,16 @@ class post_random(generics.ListCreateAPIView):
     #     random_index = [random.randint(0, count - 1)for _ in range(20)]
     #     return Post.objects.filter(pk__in=random_index)
     #     # return Post.objects.all()[random_index:random_index + 1]
-        
+
     def get_queryset(self):
         count = Post.objects.count()
         num_of_posts = 10
-        random_index = random.sample(range(1, count), num_of_posts)
-        return Post.objects.filter(pk__in=random_index)
+        if count <= num_of_posts:
+            # If there are fewer than or equal to 10 posts, return all of them
+            return Post.objects.all()
+        else:
+            random_index = random.sample(range(1, count), num_of_posts)
+            return Post.objects.filter(pk__in=random_index)
 
     def get_permissions(self):
         if self.request.method == 'GET':
@@ -231,7 +251,7 @@ class post_random(generics.ListCreateAPIView):
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
-#Postgres more effient on large
+# Postgres more effient on large
 # from django.db import connection
 # class post_list(generics.ListCreateAPIView):
 #     serializer_class = PostSerializer
@@ -253,8 +273,9 @@ class post_random(generics.ListCreateAPIView):
 
 class FollowedPostsView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
-    # authentication_classes =  [TokenAuthentication] 
+    # authentication_classes =  [TokenAuthentication]
     # permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         profile_id = self.kwargs.get('profile_id')
         try:
@@ -263,14 +284,16 @@ class FollowedPostsView(generics.ListCreateAPIView):
             return Post.objects.none()
 
         following = profile.user.following.all()
-        queryset = Post.objects.filter(poster__in=following).all().order_by('-created_date')
+        queryset = Post.objects.filter(
+            poster__in=following).all().order_by('-created_date')
         return queryset
 
-    def list(self, request, *args, **kwargs):   
+    def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-        
+
+
 class FollowersPostsView(generics.ListCreateAPIView):
     serializer_class = PostSerializer
 
@@ -282,7 +305,8 @@ class FollowersPostsView(generics.ListCreateAPIView):
             return Post.objects.none()
 
         followers = profile.followers.all()
-        queryset = Post.objects.filter(poster__user__in=followers).all().order_by('-created_date')
+        queryset = Post.objects.filter(
+            poster__user__in=followers).all().order_by('-created_date')
         return queryset
 
     def list(self, request, *args, **kwargs):
