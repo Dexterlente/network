@@ -66,7 +66,7 @@ const NavBar = () => {
     <div className='fixed top-0 mr-4'>
       <div className='w-2/5 mt-3'>
         <Link to={"/"}> 
-          <img src={Birdie} alt='BirdieKo' className='h-20 w-20 hover:bg-gray-300 transition duration-300 ease-in-out p-5 rounded-3xl'  />
+          <img src={Birdie} alt='Twit' className='h-10 w-10 hover:bg-gray-300 transition duration-300 ease-in-out p-5 rounded-3xl'  />
         </Link>
           <div className='text-2xl'>
             <Link to={"/"} className='flex p-2'>
